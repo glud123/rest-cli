@@ -10,7 +10,7 @@ module.exports = (dirname) => {
       modules: ["node_modules"],
       extensions: [".ts", ".tsx", ".js", ".jsx", ".json", "css"],
       alias: {
-        "@/": resolve(dirname, "src"),
+        "@": resolve(dirname, "./src"),
       },
     },
     context: resolve(dirname),
