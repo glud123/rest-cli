@@ -1,0 +1,28 @@
+{
+  "include": ["src", "types"],
+  "exclude": ["**/node_modules/"],
+  "compilerOptions": {
+    "jsx": "react",
+    // You can't currently define paths in your 'extends' config,
+    // so we have to set 'baseUrl' & 'paths' here.
+    // Don't change these unless you know what you're doing.
+    // See: https://github.com/microsoft/TypeScript/issues/25430
+    "baseUrl": "./",
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
+    "sourceMap": true,
+    /* more strict checking for errors that per-file transpilers like `esbuild` would crash */
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "types": ["react"],
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}

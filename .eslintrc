@@ -1,0 +1,62 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "react",
+    "react-hooks",
+    "typescript",
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "no-debugger": 2,
+    "no-extra-boolean-cast": 2,
+    "no-irregular-whitespace": 2,
+    "no-unreachable": 2,
+    "react-hooks/rules-of-hooks": 2,
+    "react-hooks/exhaustive-deps": 1,
+    "semi": 2,
+    "comma-dangle": [
+      2,
+      "always"
+    ],
+    "jsx-quotes": [
+      2,
+      "prefer-single"
+    ],
+    "quotes": [
+      2,
+      "single"
+    ],
+    "default-case": 0,
+    "indent": [
+      "warn",
+      2
+    ],
+    "sort-imports": [
+      2,
+      {
+        "ignoreDeclarationSort": true
+      }
+    ],
+    "object-curly-spacing": [
+      2,
+      "always"
+    ]
+  }
+}

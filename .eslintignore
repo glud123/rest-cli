@@ -1,0 +1,4 @@
+**/node_modules/
+**/pubilc/
+**/src/assets/
+**/webpack.*.js
