@@ -19,6 +19,9 @@ module.exports = (dirname, config) => {
       sourceMapFilename: "[name].[hash:8].map",
       chunkFilename: "[name].[hash:8].js",
     },
+    stats: {
+      errorDetails: true,
+    },
     devServer: {
       contentBase: path.join(dirname, "build"),
       historyApiFallback: true,

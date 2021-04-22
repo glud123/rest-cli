@@ -102,12 +102,12 @@ module.exports = (dirname) => {
       new CheckerPlugin(),
       new HtmlWebpackPlugin({
         inject: "body",
-        template: "public/index.html",
+        template: "template/spa.html",
         minify: false,
         publicPath: process.env.SNOWPACK_PUBLIC_BASE_PATH
           ? process.env.SNOWPACK_PUBLIC_BASE_PATH + "/"
           : "/",
-        favicon: "public/favicon.ico",
+        favicon: "./src/assets/favicon.ico",
       }),
       // new CopyPlugin({
       //     patterns: [
