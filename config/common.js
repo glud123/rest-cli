@@ -3,6 +3,7 @@ const { DefinePlugin } = require("webpack");
 const { CheckerPlugin } = require("awesome-typescript-loader");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const isProduction = process.env.NODE_ENV === "production";
 module.exports = (dirname) => {
   return {
@@ -28,13 +29,20 @@ module.exports = (dirname) => {
           use: ["babel-loader", "awesome-typescript-loader"],
         },
         {
-          test: /\.css$/,
-          exclude: /node_modules/,
+          test: /\.(le|c)ss$/,
           use: [
-            "style-loader",
+            isProduction ? MiniCssExtractPlugin.loader : "style-loader",
             { loader: "css-loader", options: { importLoaders: 1 } },
             {
               loader: "postcss-loader",
+            },
+            {
+              loader: "less-loader",
+              options: {
+                lessOptions: {
+                  javascriptEnabled: true,
+                },
+              },
             },
           ],
         },
@@ -99,6 +107,10 @@ module.exports = (dirname) => {
       },
     },
     plugins: [
+      new MiniCssExtractPlugin({
+        filename: "[name].css",
+        chunkFilename: "[id].css",
+      }),
       new CheckerPlugin(),
       new HtmlWebpackPlugin({
         inject: "body",
