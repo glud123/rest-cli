@@ -1,7 +1,7 @@
 import React from "react";
 
 const Node = () => {
-  return <div>info</div>;
+  return <div>node</div>;
 };
 
 export default Node;

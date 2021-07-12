@@ -72,3 +72,5 @@ build/
 *.rar
 
 .history/
+
+.DS_Store

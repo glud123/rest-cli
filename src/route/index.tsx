@@ -31,22 +31,29 @@ const MenuComponent = () => {
 };
 
 export default function RouteConfig() {
-  return (
-    <Router>
-      <MenuComponent />
-      <Switch>
-        {routes.map((route, i) => (
-          <RouteWithSubRoutes key={i} {...route} />
-        ))}
-      </Switch>
-    </Router>
-  );
+  return <Router>{RouterWrapperWithChildren(routes)}</Router>;
 }
+
+const RouterWrapperWithChildren = (routes: any[]) => {
+  const createRouter = (routesArray: any[]) => {
+    return routesArray.map((route: any, i: any) => {
+      if (route.children && route.children.length > 0) {
+        route.component = () => (
+          <Switch key={route.name}>{createRouter(route.children)}</Switch>
+        );
+      }
+      return <RouteWithSubRoutes key={route.name} {...route} />;
+    });
+  };
+  let r = createRouter(routes);
+  console.log(r);
+  return <Switch>{r}</Switch>;
+};
 
 const RouteWithSubRoutes = (route: any) => {
   useEffect(() => {
-    if (route.name) document.title = route.name;
-  }, [route.name]);
+    if (route.name) document.title = route.title;
+  }, [route.title]);
   return (
     <Route
       path={route.path}
