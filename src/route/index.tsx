@@ -6,29 +6,7 @@ import {
   Link,
   useLocation,
 } from "react-router-dom";
-import { Menu } from "antd";
 import routes from "./routes";
-
-const MenuComponent = () => {
-  let location = useLocation();
-  const [current, setCurrnet] = useState(location.pathname);
-
-  const handleClick = (e: any) => {
-    setCurrnet(e.key);
-  };
-
-  return (
-    <Menu selectedKeys={[current]} mode="horizontal" onClick={handleClick}>
-      {routes.map(({ name, path }) => {
-        return (
-          <Menu.Item key={path}>
-            <Link to={path}>{name}</Link>
-          </Menu.Item>
-        );
-      })}
-    </Menu>
-  );
-};
 
 export default function RouteConfig() {
   return <Router>{RouterWrapperWithChildren(routes)}</Router>;
@@ -45,24 +23,23 @@ const RouterWrapperWithChildren = (routes: any[]) => {
       return <RouteWithSubRoutes key={route.name} {...route} />;
     });
   };
-  let r = createRouter(routes);
-  console.log(r);
-  return <Switch>{r}</Switch>;
+  return <Switch>{createRouter(routes)}</Switch>;
 };
 
 const RouteWithSubRoutes = (route: any) => {
   useEffect(() => {
-    if (route.name) document.title = route.title;
+    if (route.title) document.title = route.title;
   }, [route.title]);
   return (
     <Route
       path={route.path}
-      render={(props) => (
-        // pass the sub-routes down to keep nesting
-        <Suspense fallback={"loading..."}>
-          <route.component {...props} routes={route.routes} />
-        </Suspense>
-      )}
+      render={(props) => {
+        return (
+          <Suspense fallback={"loading..."}>
+            <route.component {...props} routes={route.routes} />
+          </Suspense>
+        );
+      }}
     />
   );
 };
