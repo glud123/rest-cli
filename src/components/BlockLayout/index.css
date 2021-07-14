@@ -1,0 +1,38 @@
+.blocks-container {
+  display: grid;
+  grid-auto-flow: dense;
+  align-content: flex-start;
+  padding: 12px;
+}
+
+.block-item {
+  display: flex;
+  background: transparent;
+}
+
+.block-item .block-wrapper {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.block-item .block-wrapper .block-item-title {
+  color: #333333;
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: 500;
+  padding-bottom: 16px;
+}
+
+.block-item .block-wrapper-border {
+  padding: 16px;
+  margin: 4px;
+  border-radius: 4px;
+  box-shadow: 0px 0px 4px 0px #d0d7df;
+}
+
+.block-item .block-item-inner {
+  flex: 1;
+  overflow: hidden;
+}
