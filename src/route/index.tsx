@@ -1,30 +1,20 @@
 import React, { Suspense, useEffect, useState } from "react";
-import {
-  Route,
-  BrowserRouter as Router,
-  Switch,
-  Link,
-  useLocation,
-} from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import routes from "./routes";
 
 export default function RouteConfig() {
-  return <Router>{RouterWrapperWithChildren(routes)}</Router>;
-}
-
-const RouterWrapperWithChildren = (routes: any[]) => {
   const createRouter = (routesArray: any[]) => {
     return routesArray.map((route: any, i: any) => {
       if (route.children && route.children.length > 0) {
         route.component = () => (
-          <Switch key={route.name}>{createRouter(route.children)}</Switch>
+          <Switch key={route.path}>{createRouter(route.children)}</Switch>
         );
       }
-      return <RouteWithSubRoutes key={route.name} {...route} />;
+      return <RouteWithSubRoutes key={route.path} {...route} />;
     });
   };
   return <Switch>{createRouter(routes)}</Switch>;
-};
+}
 
 const RouteWithSubRoutes = (route: any) => {
   useEffect(() => {

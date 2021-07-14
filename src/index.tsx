@@ -1,11 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Router from "./route";
+import { BrowserRouter } from "react-router-dom";
+import RouteConfig from "./route";
+import Platform from "./platform";
 import "./styles/index.less";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router />
+    <BrowserRouter>
+      <Platform>
+        <RouteConfig />
+      </Platform>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );

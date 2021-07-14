@@ -12,6 +12,7 @@ const routes = [
   },
   {
     path: "/node",
+    title: "节点二",
     children: [
       {
         path: "/node/page1",
@@ -25,6 +26,7 @@ const routes = [
       },
       {
         path: "/node/page3",
+        title: "节点二 - 页面3 - 1",
         children: [
           {
             path: "/node/page3/1",
@@ -47,5 +49,31 @@ const routes = [
     ],
   },
 ];
+
+export const menuList = (() => {
+  const createList = (list: any[], parent?: string) => {
+    let newlist: { title: any; children?: any[]; path: any; name: any }[] = [];
+    list.forEach((item) => {
+      const { path, title, children } = item;
+      let obj: {
+        title: string;
+        path: string;
+        name: string;
+        children?: any[];
+      } = {
+        title: title,
+        path: path,
+        name: `${parent || ""}${path || "/"}`,
+      };
+
+      if (children) {
+        obj.children = createList(children, path);
+      }
+      newlist.push(obj);
+    });
+    return newlist;
+  };
+  return createList(routes);
+})();
 
 export default routes;
