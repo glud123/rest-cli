@@ -38,8 +38,8 @@ const OperationArea = () => {
 
   return (
     <div className="operation-area-wrapper">
-      <div className="container">
-        <div className="left">
+      <div className="oaw-container">
+        <div className="oaw-left">
           {open ? (
             <MenuFoldOutlined
               onClick={() => {
@@ -55,7 +55,7 @@ const OperationArea = () => {
           )}
           <Breadcrumb>{breadcrumbCreater}</Breadcrumb>
         </div>
-        <div className="right">{}</div>
+        <div className="oaw-right">{}</div>
       </div>
     </div>
   );

@@ -6,9 +6,9 @@ const Header: FC<any> = (props) => {
   const children = props.children;
   return (
     <div className="header-wrapper">
-      <div className="title-wrapper">
+      <div className="hw-title-wrapper">
         <MediumSquareFilled />
-        <span className="title">标题</span>
+        <span className="hw-title">标题</span>
       </div>
       <div>
         <AppstoreFilled />

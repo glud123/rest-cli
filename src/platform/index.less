@@ -3,20 +3,21 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  .header {
+  .pw-header {
     flex: 0 0 48px;
     background-color: #056676;
   }
-  .body {
+  .pw-body {
     flex: 1;
     overflow: hidden;
     display: flex;
     flex-wrap: nowrap;
-    .menu {
+    .pw-menu {
       flex: 0 0 248px;
+      overflow: hidden;
       background-color: #fff;
     }
-    .content {
+    .pw-content {
       flex: 1;
       overflow: hidden;
       display: flex;
@@ -24,10 +25,11 @@
       gap: 16px;
       padding: 16px;
       background-color: #f4f9f9;
-      .operation-area {
-        flex: 0 0 58px;
+      .pw-operation-area {
+        flex: 0 0 70px;
+        overflow: hidden;
       }
-      .container {
+      .pw-container {
         flex: 1;
         overflow: hidden;
       }

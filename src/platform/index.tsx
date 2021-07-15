@@ -8,18 +8,18 @@ const Platform: FC<any> = (props) => {
   const children = props.children;
   return (
     <div className="platform-wrapper">
-      <header className="header">
+      <header className="pw-header">
         <Header />
       </header>
-      <div className="body">
-        <div className="menu">
+      <div className="pw-body">
+        <div className="pw-menu">
           <Menu />
         </div>
-        <div className="content">
-          <div className="operation-area">
+        <div className="pw-content">
+          <div className="pw-operation-area">
             <OperationArea />
           </div>
-          <div className="container">{children}</div>
+          <div className="pw-container">{children}</div>
         </div>
       </div>
     </div>
