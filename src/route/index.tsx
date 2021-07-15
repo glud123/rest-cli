@@ -18,7 +18,7 @@ export default function RouteConfig() {
 
 const RouteWithSubRoutes = (route: any) => {
   useEffect(() => {
-    if (route.title) document.title = route.title;
+    if (route.title && !route.children) document.title = route.title;
   }, [route.title]);
   return (
     <Route

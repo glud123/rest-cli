@@ -12,39 +12,38 @@ const routes = [
   },
   {
     path: "/node",
-    title: "节点二",
+    title: "节点",
     children: [
       {
+        path: "/node/",
+        title: "节点 - 默认页面",
+        component: page,
+      },
+      {
         path: "/node/page1",
-        title: "节点二 - 页面1",
+        title: "节点1 - 页面1",
         component: page1,
       },
       {
         path: "/node/page2",
-        title: "节点二 - 页面2",
+        title: "节点2 - 页面2",
         component: page2,
       },
       {
         path: "/node/page3",
-        title: "节点二 - 页面3 - 1",
+        title: "节点3",
         children: [
           {
-            path: "/node/page3/1",
-            title: "节点二 - 页面3 - 1",
+            path: "/node/page3/",
+            title: "节点3 - 默认页面",
             component: page2,
           },
           {
-            path: "",
-            title: "节点二 - 页面3",
+            path: "/node/page3/1",
+            title: "节点3 - 页面1",
             component: page2,
           },
         ],
-      },
-      {
-        path: "",
-        exact: true,
-        title: "节点二",
-        component: page,
       },
     ],
   },
@@ -52,7 +51,12 @@ const routes = [
 
 export const menuList = (() => {
   const createList = (list: any[], parent?: string) => {
-    let newlist: { title: any; children?: any[]; path: any; name: any }[] = [];
+    let newlist: {
+      title: string;
+      children?: any[];
+      path: string;
+      name: string;
+    }[] = [];
     list.forEach((item) => {
       const { path, title, children } = item;
       let obj: {
@@ -63,7 +67,7 @@ export const menuList = (() => {
       } = {
         title: title,
         path: path,
-        name: `${parent || ""}${path || "/"}`,
+        name: path ? path : parent,
       };
 
       if (children) {
