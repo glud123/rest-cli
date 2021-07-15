@@ -82,7 +82,7 @@ export const Blocks: FC<BlocksInterface> = (props) => {
     width = "100%",
     height = "100%",
     lineWidth = 16,
-    backgroundColor = { blocks: "#ECEFF4", block: "#FFFFFF" },
+    backgroundColor = { blocks: "transparent", block: "#FFFFFF" },
   } = props;
 
   const gridTemplate = getGridTemplate(children, row, col);

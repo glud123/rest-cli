@@ -2,7 +2,6 @@
   display: grid;
   grid-auto-flow: dense;
   align-content: flex-start;
-  padding: 12px;
 }
 
 .block-item {
