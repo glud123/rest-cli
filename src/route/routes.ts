@@ -3,12 +3,41 @@ import page from "@/modules/node2";
 import page1 from "@/modules/node2/page1";
 import page2 from "@/modules/node2/page2";
 
+import curriculumDesign from "@/modules/curriculumDesign";
+
 const routes = [
   {
     path: "/",
-    title: "主页",
+    title: "首页",
     exact: true,
     component: mainPage,
+  },
+  {
+    path: "/curriculum-design",
+    title: "课程设计",
+    redirect: "/curriculum-design/",
+    hidden: ["breadcrumb"],
+    children: [
+      {
+        path: "/curriculum-design/",
+        exact: true,
+        title: "课程设计",
+        hidden: ["menu"],
+        component: curriculumDesign.List,
+      },
+      {
+        path: "/curriculum-design/details",
+        title: "课程设计",
+        hidden: ["menu", "breadcrumb"],
+        component: curriculumDesign.Details,
+      },
+      {
+        path: "/curriculum-design/details/:id",
+        hidden: ["menu", "breadcrumb"],
+        title: "课程设计",
+        component: curriculumDesign.Details,
+      },
+    ],
   },
   {
     path: "/node",
@@ -62,16 +91,18 @@ export const menuList = (() => {
       name: string;
     }[] = [];
     list.forEach((item) => {
-      const { path, title, children } = item;
+      const { path, title, redirect, children } = item;
 
       let obj: {
         title: string;
         path: string;
         name: string;
         children?: any[];
+        redirect?: string;
       } = {
         title: title,
         path: path,
+        redirect: redirect,
         name: path ? path : parent,
       };
 
@@ -106,17 +137,11 @@ export const breadcrumbList = (() => {
         title,
       };
       if (children && children.length > 0) {
-        // 过滤掉不在菜单中显示的节点
-        let showChildren = children.filter((child: { hidden?: string[] }) => {
-          if (child.hidden && child.hidden.length > 0) {
-            return !child.hidden.includes("breadcrumb");
-          } else {
-            return true;
-          }
-        });
-        createObj(showChildren, path);
+        createObj(children, path);
       }
-      breadcrumbObject[path] = obj;
+      if ((hidden && !hidden.includes("breadcrumb")) || !hidden) {
+        breadcrumbObject[path] = obj;
+      }
     });
   };
   createObj(routes);

@@ -38,7 +38,15 @@ const Menu: FC<any> = () => {
           </SubMenu>
         );
       } else {
-        return <MenuItem key={item.name} title={item.title}>{item.title}</MenuItem>;
+        return (
+          <MenuItem
+            key={item.name}
+            title={item.title}
+            attribute={{ redirect: item.redirect }}
+          >
+            {item.title}
+          </MenuItem>
+        );
       }
     });
   };
@@ -50,9 +58,13 @@ const Menu: FC<any> = () => {
         defaultSelectedKeys={defaultSelectedKeys}
         defaultOpenKeys={defaultOpenKeys}
         onClick={(e) => {
-          const { key, keyPath } = e;
+          const { key, keyPath, item }: any = e;
           console.log(e);
-          history.push(key as string);
+          if (item.props.attribute && item.props.attribute.redirect) {
+            history.push(item.props.attribute.redirect as string);
+          } else {
+            history.push(key as string);
+          }
         }}
       >
         {createMenu(menuList)}

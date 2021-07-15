@@ -17,23 +17,28 @@ const OperationArea = () => {
       path: string;
       title: string;
     }) => {
-      const { parent } = obj;
-      array.push(obj);
-      if (parent) {
-        return ctreater(breadcrumbList[parent]);
+      if (obj) {
+        const { parent } = obj;
+        array.push(obj);
+        if (parent) {
+          return ctreater(breadcrumbList[parent]);
+        }
       }
     };
     ctreater(breadcrumbList[currentPath]);
-    array = array.reverse();
-    array[0] = { ...array[0], path: `${array[0].path}/` };
+    if (array.length > 0) {
+      array = array.reverse();
 
-    return array.map(({ path, title }) => {
-      return (
-        <Breadcrumb.Item>
-          <Link to={path}>{title}</Link>
-        </Breadcrumb.Item>
-      );
-    });
+      return array.map(({ path, title }) => {
+        return (
+          <Breadcrumb.Item key={path}>
+            <Link to={path}>{title}</Link>
+          </Breadcrumb.Item>
+        );
+      });
+    } else {
+      return null;
+    }
   }, [location.pathname]);
 
   return (
