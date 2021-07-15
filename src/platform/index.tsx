@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import Header from "./Header";
 import Menu from "./Menu";
+import OperationArea from "./OperationArea";
 import "./index.less";
 
 const Platform: FC<any> = (props) => {
@@ -14,7 +15,12 @@ const Platform: FC<any> = (props) => {
         <div className="menu">
           <Menu />
         </div>
-        <div className="content">{children}</div>
+        <div className="content">
+          <div className="operation-area">
+            <OperationArea />
+          </div>
+          <div className="container">{children}</div>
+        </div>
       </div>
     </div>
   );

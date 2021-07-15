@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   .header {
-    flex: 0 0 58px;
+    flex: 0 0 48px;
     background-color: #056676;
   }
   .body {
@@ -13,13 +13,24 @@
     display: flex;
     flex-wrap: nowrap;
     .menu {
-      flex: 0 0 268px;
-      background-color: #e8eae6;
+      flex: 0 0 248px;
+      background-color: #fff;
     }
     .content {
       flex: 1;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 16px;
       background-color: #f4f9f9;
+      .operation-area {
+        flex: 0 0 58px;
+      }
+      .container {
+        flex: 1;
+        overflow: hidden;
+      }
     }
   }
 }

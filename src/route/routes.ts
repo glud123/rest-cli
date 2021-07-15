@@ -16,6 +16,7 @@ const routes = [
     children: [
       {
         path: "/node/",
+        exact: true,
         title: "节点 - 默认页面",
         component: page,
       },
@@ -35,11 +36,14 @@ const routes = [
         children: [
           {
             path: "/node/page3/",
+            hidden: ["menu", "breadcrumb"],
+            exact: true,
             title: "节点3 - 默认页面",
-            component: page2,
+            component: page1,
           },
           {
             path: "/node/page3/1",
+            hidden: ["menu"],
             title: "节点3 - 页面1",
             component: page2,
           },
@@ -59,6 +63,7 @@ export const menuList = (() => {
     }[] = [];
     list.forEach((item) => {
       const { path, title, children } = item;
+
       let obj: {
         title: string;
         path: string;
@@ -71,7 +76,17 @@ export const menuList = (() => {
       };
 
       if (children) {
-        obj.children = createList(children, path);
+        // 过滤掉不在菜单中显示的节点
+        let showChildren = children.filter((child: { hidden?: string[] }) => {
+          if (child.hidden && child.hidden.length > 0) {
+            return !child.hidden.includes("menu");
+          } else {
+            return true;
+          }
+        });
+        if (showChildren.length > 0) {
+          obj.children = createList(showChildren, path);
+        }
       }
       newlist.push(obj);
     });
@@ -79,5 +94,35 @@ export const menuList = (() => {
   };
   return createList(routes);
 })();
+
+export const breadcrumbList = (() => {
+  let breadcrumbObject: any = {};
+  const createObj = (list: any[], parent?: string) => {
+    list.forEach((item) => {
+      const { path, title, children, hidden } = item;
+      let obj = {
+        parent,
+        path,
+        title,
+      };
+      if (children && children.length > 0) {
+        // 过滤掉不在菜单中显示的节点
+        let showChildren = children.filter((child: { hidden?: string[] }) => {
+          if (child.hidden && child.hidden.length > 0) {
+            return !child.hidden.includes("breadcrumb");
+          } else {
+            return true;
+          }
+        });
+        createObj(showChildren, path);
+      }
+      breadcrumbObject[path] = obj;
+    });
+  };
+  createObj(routes);
+  return breadcrumbObject;
+})();
+
+console.log(breadcrumbList);
 
 export default routes;

@@ -38,7 +38,7 @@ const Menu: FC<any> = () => {
           </SubMenu>
         );
       } else {
-        return <MenuItem key={item.name}>{item.title}</MenuItem>;
+        return <MenuItem key={item.name} title={item.title}>{item.title}</MenuItem>;
       }
     });
   };
@@ -51,7 +51,7 @@ const Menu: FC<any> = () => {
         defaultOpenKeys={defaultOpenKeys}
         onClick={(e) => {
           const { key, keyPath } = e;
-          console.log(keyPath);
+          console.log(e);
           history.push(key as string);
         }}
       >
