@@ -26,6 +26,22 @@ const Menu: FC<any> = () => {
   }, []);
 
   const defaultSelectedKeys = useMemo(() => {
+    let redirectItem: any = null;
+    const findRedirectItemFn: any = (list: any[]) => {
+      return list.forEach((item) => {
+        if (item.children && item.children.length > 0) {
+          return findRedirectItemFn(item.children);
+        }
+        if (item.redirect === location.pathname) {
+          redirectItem = item;
+        }
+      });
+    };
+
+    findRedirectItemFn(menuList);
+    if (redirectItem) {
+      return [redirectItem.path];
+    }
     return [location.pathname];
   }, []);
 

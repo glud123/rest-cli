@@ -5,6 +5,18 @@ import page2 from "@/modules/node2/page2";
 
 import curriculumDesign from "@/modules/curriculumDesign";
 
+/**
+ * 路由配置参数说明
+ * @param {string} path 路由路径
+ * @param {string} title 菜单名称
+ * @param {boolean} exact 是否精准匹配
+ * @param {React.Element} component 路由组件
+ * @param {string[]} hidden 在指定场景下隐藏 menu 在菜单下隐藏 ，breadcrumb 在面包屑下隐藏
+ * @param {string} redirect 重定向地址
+ *
+ * 说明： 拥有子项的的配置项无需挂载组件，通过重定向属性在指定子项此项的加载页面
+ */
+
 const routes = [
   {
     path: "/",
@@ -62,6 +74,7 @@ const routes = [
       {
         path: "/node/page3",
         title: "节点3",
+        redirect: "/node/page3/",
         children: [
           {
             path: "/node/page3/",
@@ -147,7 +160,5 @@ export const breadcrumbList = (() => {
   createObj(routes);
   return breadcrumbObject;
 })();
-
-console.log(breadcrumbList);
 
 export default routes;

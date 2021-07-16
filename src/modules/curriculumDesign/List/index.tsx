@@ -5,9 +5,9 @@ import Store from "@/store";
 import { Blocks, Block } from "@/components/BlockLayout";
 
 const List = () => {
-  const setTodoList = useSetRecoilState(Store.platform.operationState);
+  const setOperation = useSetRecoilState(Store.platform.operationState);
   useEffect(() => {
-    setTodoList(
+    setOperation(
       <Button type="primary" onClick={() => {}}>
         课程设计
       </Button>
