@@ -39,14 +39,14 @@ const routes = [
       },
       {
         path: "/curriculum-design/details",
-        title: "课程设计",
-        hidden: ["menu", "breadcrumb"],
+        title: "新增",
+        hidden: ["menu"],
         component: curriculumDesign.Details,
       },
       {
         path: "/curriculum-design/details/:id",
-        hidden: ["menu", "breadcrumb"],
-        title: "课程设计",
+        hidden: ["menu"],
+        title: "编辑",
         component: curriculumDesign.Details,
       },
     ],
@@ -143,14 +143,14 @@ export const breadcrumbList = (() => {
   let breadcrumbObject: any = {};
   const createObj = (list: any[], parent?: string) => {
     list.forEach((item) => {
-      const { path, title, children, hidden } = item;
+      const { path, title, children, hidden, redirect } = item;
       let obj = {
-        parent,
+        parent: path === parent ? undefined : parent,
         path,
         title,
       };
       if (children && children.length > 0) {
-        createObj(children, path);
+        createObj(children, redirect || path);
       }
       if ((hidden && !hidden.includes("breadcrumb")) || !hidden) {
         breadcrumbObject[path] = obj;
