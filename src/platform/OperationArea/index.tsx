@@ -1,6 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import { Breadcrumb } from "antd";
+import Store from "@/store";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { breadcrumbList } from "@/route/routes";
 import "./index.less";
@@ -8,6 +10,12 @@ import "./index.less";
 const OperationArea = () => {
   const location = useLocation();
   const [open, setOpen] = useState(true);
+  const [operation, setOperation] = useRecoilState(
+    Store.platform.operationState
+  );
+  useEffect(() => {
+    setOperation(null);
+  }, [location.pathname]);
 
   const breadcrumbCreater: any = useMemo(() => {
     let currentPath = location.pathname;
@@ -60,7 +68,7 @@ const OperationArea = () => {
           )}
           <Breadcrumb>{breadcrumbCreater}</Breadcrumb>
         </div>
-        <div className="oaw-right">{}</div>
+        <div className="oaw-right">{operation}</div>
       </div>
     </div>
   );
