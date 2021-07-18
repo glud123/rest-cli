@@ -9,7 +9,7 @@ module.exports = (dirname) => {
     mode: "production",
     entry: "./src/index.tsx",
     output: {
-      path: path.join(dirname, "build"),
+      path: path.join(dirname, "dist"),
       filename: "[name].js",
       sourceMapFilename: "[name].[hash:8].map",
       chunkFilename: "[name].[hash:8].js",
@@ -34,7 +34,7 @@ module.exports = (dirname) => {
     },
     plugins: [
       new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns: path.join(dirname, "build"),
+        cleanOnceBeforeBuildPatterns: path.join(dirname, "dist"),
       }),
     ],
   });

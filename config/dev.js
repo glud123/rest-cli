@@ -14,7 +14,7 @@ module.exports = (dirname, config) => {
       "./src/index.tsx", // the entry point of our app
     ],
     output: {
-      path: path.resolve(dirname, "build"),
+      path: path.resolve(dirname, "dist"),
       filename: "[name].js",
       sourceMapFilename: "[name].[hash:8].map",
       chunkFilename: "[name].[hash:8].js",
@@ -23,7 +23,7 @@ module.exports = (dirname, config) => {
       errorDetails: true,
     },
     devServer: {
-      contentBase: path.join(dirname, "build"),
+      contentBase: path.join(dirname, "dist"),
       historyApiFallback: true,
       port: port,
       host: host,

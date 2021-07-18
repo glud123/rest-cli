@@ -1,5 +1,6 @@
 import React from "react";
-import { Form, Input, InputNumber, Button } from "antd";
+import { Form, Input, Button, Dropdown, Menu } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 import OperationList from "@/components/OperationList";
 
 const Content = () => {
@@ -17,12 +18,28 @@ const Content = () => {
   ) => {
     console.log(index, list);
   };
+
+  const handleMenuClick = (e: any) => {
+    console.log("click", e);
+  };
+
+  const menu = (
+    <Menu onClick={handleMenuClick}>
+      <Menu.Item key="1">课件</Menu.Item>
+      <Menu.Item key="2">考试</Menu.Item>
+      <Menu.Item key="3">作业</Menu.Item>
+      <Menu.Item key="1">心得</Menu.Item>
+      <Menu.Item key="2">评价</Menu.Item>
+      <Menu.Item key="3">其他</Menu.Item>
+    </Menu>
+  );
   return (
     <div className="curriculum-content">
       <div className="cc-left">
         <OperationList data={[]} onChange={handleChange} />
       </div>
       <div className="cc-right">
+        
         <Form
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 14 }}
@@ -42,8 +59,12 @@ const Content = () => {
           <Form.Item label="阶段描述" name="courseDesc">
             <Input />
           </Form.Item>
-          <Form.Item label="阶段描述" name="courseDesc">
-            <Button>上一步</Button>
+          <Form.Item>
+            <Dropdown overlay={menu}>
+              <Button>
+                添加任务 <DownOutlined />
+              </Button>
+            </Dropdown>
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 18, span: 16 }}>
             <Button>上一步</Button>
