@@ -32,7 +32,7 @@ const Details = () => {
           style={{ marginLeft: "16px" }}
           type="primary"
           onClick={() => {
-            history.push("/curriculum-design/");
+            setCurrent(1);
           }}
         >
           下一步
@@ -45,7 +45,7 @@ const Details = () => {
         <Button
           style={{ marginLeft: "16px" }}
           onClick={() => {
-            history.push("/curriculum-design/");
+            setCurrent(0);
           }}
         >
           上一步
@@ -54,7 +54,7 @@ const Details = () => {
           style={{ marginLeft: "16px" }}
           type="primary"
           onClick={() => {
-            history.push("/curriculum-design/");
+            setCurrent(2);
           }}
         >
           下一步
@@ -67,7 +67,7 @@ const Details = () => {
         <Button
           style={{ marginLeft: "16px" }}
           onClick={() => {
-            history.push("/curriculum-design/");
+            setCurrent(1);
           }}
         >
           上一步
