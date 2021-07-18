@@ -2,8 +2,11 @@ import React from "react";
 import OperationList from "@/components/OperationList";
 
 const Content = () => {
-  const handleChange = (list: { value: string; [k: string]: any }[]) => {
-    console.log(list);
+  const handleChange = (
+    index: number | undefined,
+    list: { value: string; [k: string]: any }[]
+  ) => {
+    console.log(index, list);
   };
   return (
     <div className="curriculum-content">

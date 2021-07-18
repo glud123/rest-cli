@@ -9,8 +9,10 @@ import "./index.less";
 
 interface OperationListInterface {
   data: { value: string; [k: string]: any }[];
-  activeKey?: string;
-  onChange?: (list: { value: string; [k: string]: any }[]) => void;
+  onChange?: (
+    activeIndex: number | undefined,
+    list: { value: string; [k: string]: any }[]
+  ) => void;
   onAdd?: () => void;
   onDelete?: () => void;
   onUp?: () => void;
@@ -18,7 +20,7 @@ interface OperationListInterface {
 }
 
 const OperationList: FC<OperationListInterface> = (props) => {
-  const { data, activeKey, onChange } = props;
+  const { data, onChange } = props;
 
   const [list, setList] = useState<
     {
@@ -48,8 +50,9 @@ const OperationList: FC<OperationListInterface> = (props) => {
       const { _label, value, ...args } = item;
       return { value, ...args };
     });
-    onChange && onChange(newList);
-  }, [list]);
+    onChange &&
+      onChange(num === 0 && newList.length === 0 ? undefined : num, newList);
+  }, [list, num]);
 
   const handleBtnClick = (k: "add" | "del" | "up" | "down") => {
     if (k === "add") {
@@ -68,7 +71,6 @@ const OperationList: FC<OperationListInterface> = (props) => {
       if (nexNum > list.length - 1 && nexNum > 0) {
         nexNum = nexNum - 1;
       }
-      console.log(nexNum);
       list.splice(nexNum, 1);
       let nextList = list.map((item, index) => {
         return { ...item, _label: `阶段 ${index + 1} ` };
