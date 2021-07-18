@@ -59,11 +59,6 @@ const Deploy = () => {
           );
         })}
       </ul>
-      <div className="cd-btn-wrapper">
-        <Button>上一步</Button>
-        <Button type="primary">暂存草稿</Button>
-        <Button type="primary">发布</Button>
-      </div>
     </div>
   );
 };

@@ -44,9 +44,6 @@ const Info = () => {
         <Form.Item label="课程设计者" name="courseDesigner">
           <Input />
         </Form.Item>
-        <Form.Item wrapperCol={{ offset: 18, span: 16 }}>
-          <Button type="primary">下一步</Button>
-        </Form.Item>
       </Form>
     </div>
   );

@@ -39,7 +39,6 @@ const Content = () => {
         <OperationList data={[]} onChange={handleChange} />
       </div>
       <div className="cc-right">
-        
         <Form
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 14 }}
@@ -65,10 +64,6 @@ const Content = () => {
                 添加任务 <DownOutlined />
               </Button>
             </Dropdown>
-          </Form.Item>
-          <Form.Item wrapperCol={{ offset: 18, span: 16 }}>
-            <Button>上一步</Button>
-            <Button type="primary">下一步</Button>
           </Form.Item>
         </Form>
       </div>

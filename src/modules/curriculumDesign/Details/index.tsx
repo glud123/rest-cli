@@ -12,21 +12,89 @@ import "./index.less";
 const Details = () => {
   let history = useHistory();
 
+  const [current, setCurrent] = useState(0);
+
   const setOperation = useSetRecoilState(Store.platform.operationState);
   useEffect(() => {
-    setOperation(
+    let btnArray = [
       <Button
-        type="primary"
         onClick={() => {
           history.push("/curriculum-design/");
         }}
       >
         返回
-      </Button>
-    );
-  }, []);
+      </Button>,
+    ];
+    if (current === 0) {
+      btnArray = [
+        ...btnArray,
+        <Button
+          style={{ marginLeft: "16px" }}
+          type="primary"
+          onClick={() => {
+            history.push("/curriculum-design/");
+          }}
+        >
+          下一步
+        </Button>,
+      ];
+    }
+    if (current === 1) {
+      btnArray = [
+        ...btnArray,
+        <Button
+          style={{ marginLeft: "16px" }}
+          onClick={() => {
+            history.push("/curriculum-design/");
+          }}
+        >
+          上一步
+        </Button>,
+        <Button
+          style={{ marginLeft: "16px" }}
+          type="primary"
+          onClick={() => {
+            history.push("/curriculum-design/");
+          }}
+        >
+          下一步
+        </Button>,
+      ];
+    }
+    if (current === 2) {
+      btnArray = [
+        ...btnArray,
+        <Button
+          style={{ marginLeft: "16px" }}
+          onClick={() => {
+            history.push("/curriculum-design/");
+          }}
+        >
+          上一步
+        </Button>,
+        <Button
+          type="primary"
+          style={{ marginLeft: "16px" }}
+          onClick={() => {
+            history.push("/curriculum-design/");
+          }}
+        >
+          暂存草稿
+        </Button>,
+        <Button
+          style={{ marginLeft: "16px" }}
+          type="primary"
+          onClick={() => {
+            history.push("/curriculum-design/");
+          }}
+        >
+          发布
+        </Button>,
+      ];
+    }
 
-  const [current, setCurrent] = useState(0);
+    setOperation(btnArray);
+  }, [current]);
 
   const onChange = (current: any) => {
     console.log("onChange:", current);
