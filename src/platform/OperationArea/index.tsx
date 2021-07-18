@@ -5,14 +5,14 @@ import { Breadcrumb } from "antd";
 import Store from "@/store";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { breadcrumbList } from "@/route/routes";
-import "./index.less";
 
 const OperationArea = () => {
   const location = useLocation();
-  const [open, setOpen] = useState(true);
   const [operation, setOperation] = useRecoilState(
     Store.platform.operationState
   );
+  const [menuOnOff, setMenuOnOff] = useRecoilState(Store.platform.menuOnOff);
+
   useEffect(() => {
     setOperation(null);
   }, [location.pathname]);
@@ -53,16 +53,16 @@ const OperationArea = () => {
     <div className="operation-area-wrapper">
       <div className="oaw-container">
         <div className="oaw-left">
-          {open ? (
+          {menuOnOff ? (
             <MenuFoldOutlined
               onClick={() => {
-                setOpen(false);
+                setMenuOnOff(false);
               }}
             />
           ) : (
             <MenuUnfoldOutlined
               onClick={() => {
-                setOpen(true);
+                setMenuOnOff(true);
               }}
             />
           )}

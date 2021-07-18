@@ -15,9 +15,7 @@ const Platform: FC<any> = (props) => {
         <Header />
       </header>
       <div className="pw-body">
-        <div className="pw-menu">
-          <Menu />
-        </div>
+        <Menu />
         <div className="pw-content">
           {location.pathname !== "/" && (
             <div className="pw-operation-area">

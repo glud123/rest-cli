@@ -1,14 +1,17 @@
 import React, { FC, useMemo } from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import Store from "@/store";
 import { Menu as AntdMenu } from "antd";
 import { menuList } from "@/route/routes";
-import "./index.less";
 
 const { SubMenu, ItemGroup, Item: MenuItem } = AntdMenu;
 
 const Menu: FC<any> = () => {
   let history = useHistory();
   const location = useLocation();
+
+  const on_off = useRecoilValue(Store.platform.menuOnOff);
 
   const defaultOpenKeys = useMemo(() => {
     let subMenuKey = location.pathname.split("/");
@@ -68,23 +71,25 @@ const Menu: FC<any> = () => {
   };
 
   return (
-    <div className="menu-wrapper">
-      <AntdMenu
-        mode="inline"
-        defaultSelectedKeys={defaultSelectedKeys}
-        defaultOpenKeys={defaultOpenKeys}
-        onClick={(e) => {
-          const { key, keyPath, item }: any = e;
-          console.log(e);
-          if (item.props.attribute && item.props.attribute.redirect) {
-            history.push(item.props.attribute.redirect as string);
-          } else {
-            history.push(key as string);
-          }
-        }}
-      >
-        {createMenu(menuList)}
-      </AntdMenu>
+    <div className="pw-menu" style={{ flex: `0 0 ${on_off ? 248 : 0}px` }}>
+      <div className="menu-wrapper">
+        <AntdMenu
+          mode="inline"
+          defaultSelectedKeys={defaultSelectedKeys}
+          defaultOpenKeys={defaultOpenKeys}
+          onClick={(e) => {
+            const { key, keyPath, item }: any = e;
+            console.log(e);
+            if (item.props.attribute && item.props.attribute.redirect) {
+              history.push(item.props.attribute.redirect as string);
+            } else {
+              history.push(key as string);
+            }
+          }}
+        >
+          {createMenu(menuList)}
+        </AntdMenu>
+      </div>
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { AppstoreFilled, MediumSquareFilled } from "@ant-design/icons";
-import "./index.less";
 
 const Header: FC<any> = (props) => {
   const children = props.children;
