@@ -58,7 +58,7 @@ const Content = () => {
           <Form.Item label="阶段描述" name="courseDesc">
             <Input />
           </Form.Item>
-          <Form.Item>
+          <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
             <Dropdown overlay={menu}>
               <Button>
                 添加任务 <DownOutlined />

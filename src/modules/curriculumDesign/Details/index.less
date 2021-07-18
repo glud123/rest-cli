@@ -1,10 +1,15 @@
 .curriculum-details {
   height: 100%;
   display: flex;
+  gap: 16px;
   flex-direction: column;
   .cd-top {
-    flex: 0 0 56px;
+    flex: 0 0 72px;
     overflow: hidden;
+    border-bottom: 1px solid #e5e5e5;
+    > div {
+      height: 100%;
+    }
   }
   .cd-bottom {
     flex: 1;
@@ -20,18 +25,22 @@
   height: 100%;
   display: flex;
   .cc-left {
-    flex: 0 0 258px;
+    flex: 0 0 298px;
     overflow: hidden;
+    padding-right: 16px;
+    border-right: 1px solid #e5e5e5;
   }
   .cc-right {
     flex: 1;
     overflow: hidden;
+    padding-top: 16px;
   }
 }
 
 .curriculum-deploy {
   display: flex;
   flex-direction: column;
+  padding: 16px;
   .cd-title {
     font-size: 16px;
   }
@@ -42,16 +51,44 @@
     list-style: none;
     display: flex;
     justify-content: center;
-
+    padding-right: 30px;
     li {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 16px;
-      border: 1px solid #ccc;
+      justify-content: center;
+      flex: 1;
+      min-height: 120px;
       border-left: none;
-      &:first-child {
-        border-left: 1px solid #ccc;
+      position: relative;
+      &::after {
+        position: absolute;
+        right: 0;
+        content: "";
+        background-color: #e5e5e5;
+        box-shadow: 0 0 4px 0 #d0d7df;
+        width: 1px;
+        height: 100%;
+        display: inline-block;
+        transform: rotate(30deg);
+      }
+      &::before {
+        position: absolute;
+        left: -5px;
+        bottom: 7px;
+        content: "";
+        background-color: #e5e5e5;
+        box-shadow: 0 0 4px 0 #d0d7df;
+        height: 1px;
+        width: 100px;
+        display: inline-block;
+      }
+      > span:first-child {
+        font-size: 21px;
+        font-weight: 450;
+      }
+      > span:last-child {
+        letter-spacing: 4px;
       }
     }
   }
