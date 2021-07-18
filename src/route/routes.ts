@@ -4,6 +4,7 @@ import page1 from "@/modules/node2/page1";
 import page2 from "@/modules/node2/page2";
 
 import curriculumDesign from "@/modules/curriculumDesign";
+import testPaperDesign from "@/modules/testPaperDesign";
 
 /**
  * 路由配置参数说明
@@ -48,6 +49,21 @@ const routes = [
         hidden: ["menu"],
         title: "编辑",
         component: curriculumDesign.Details,
+      },
+    ],
+  },
+  {
+    path: "/test-paper-design",
+    title: "试卷设计",
+    redirect: "/test-paper-design/",
+    hidden: ["breadcrumb"],
+    children: [
+      {
+        path: "/test-paper-design/",
+        exact: true,
+        title: "试卷设计",
+        hidden: ["menu"],
+        component: testPaperDesign.List,
       },
     ],
   },
