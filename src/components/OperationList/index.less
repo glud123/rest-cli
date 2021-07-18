@@ -1,0 +1,45 @@
+.operation-list {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .ol-header {
+    flex: 0 0 39px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bolder;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .ol-container {
+    flex: 1;
+    overflow: hidden;
+    .ol-ul {
+      display: block;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      padding: 16px 0;
+      overflow-y: auto;
+      .ol-list-item {
+        list-style: none;
+        padding: 0 16px;
+        height: 42px;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        cursor: pointer;
+        &:hover {
+          background-color: #a3d2da;
+        }
+      }
+      .ol-active {
+        background-color: #056676;
+        color: #a3d2da;
+        &:hover {
+          color: #333333;
+        }
+      }
+    }
+  }
+}
