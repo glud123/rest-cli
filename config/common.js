@@ -121,13 +121,13 @@ module.exports = (dirname) => {
           : "/",
         favicon: "./src/assets/favicon.ico",
       }),
-      // new CopyPlugin({
-      //     patterns: [
-      //         {
-      //             from: "public/", to: "./",
-      //         },
-      //     ],
-      // }),
+      new CopyPlugin({
+          patterns: [
+              {
+                  from: "./_redirects", to: "./",
+              },
+          ],
+      }),
       new DefinePlugin({
         SNOWPACK_PUBLIC_PAGE_PATH: JSON.stringify(
           process.env.SNOWPACK_PUBLIC_PAGE_PATH || ""
