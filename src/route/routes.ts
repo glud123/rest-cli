@@ -1,8 +1,8 @@
-import mainPage from "@/modules/node";
 import page from "@/modules/node2";
 import page1 from "@/modules/node2/page1";
 import page2 from "@/modules/node2/page2";
 
+import home from "@/modules/home";
 import curriculumDesign from "@/modules/curriculumDesign";
 import testPaperDesign from "@/modules/testPaperDesign";
 
@@ -23,7 +23,7 @@ const routes = [
     path: "/",
     title: "首页",
     exact: true,
-    component: mainPage,
+    component: home,
   },
   {
     path: "/curriculum-design",
