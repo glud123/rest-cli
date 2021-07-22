@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { Button, Table } from "antd";
+import { Button, Table, Radio, Input } from "antd";
 import Store from "@/store";
 import { Blocks, Block } from "@/components/BlockLayout";
 import Filter from "@/components/Filter";
@@ -23,6 +23,8 @@ const List = () => {
       </Button>
     );
   }, []);
+
+  const onSearch = (value: any) => console.log(value);
 
   const data = [
     {
@@ -51,7 +53,21 @@ const List = () => {
   return (
     <Blocks row={2}>
       <Block row={1}>
-        <Filter />
+        <Filter>
+          <Radio.Group defaultValue="a" buttonStyle="solid">
+            <Radio.Button value="a">不限</Radio.Button>
+            <Radio.Button value="b">已发布</Radio.Button>
+            <Radio.Button value="c">未发布</Radio.Button>
+          </Radio.Group>
+          <div>
+            <Input.Search
+              placeholder="课程名称"
+              onSearch={onSearch}
+              enterButton
+              allowClear
+            />
+          </div>
+        </Filter>
       </Block>
       <Block row={2}>
         <Table columns={columns} dataSource={data} />

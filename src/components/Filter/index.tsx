@@ -1,11 +1,9 @@
-import React from "react";
+import React, { FC } from "react";
+import "./index.less";
 
-const Filter = () => {
-  return (
-    <div>
-      <h1>Filter</h1>
-    </div>
-  );
+const Filter: FC<any> = (props) => {
+  const { children } = props;
+  return <div className="filter-wrapper">{children}</div>;
 };
 
 export default Filter;
