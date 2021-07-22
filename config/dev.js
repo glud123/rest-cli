@@ -4,7 +4,7 @@ const webpack = require("webpack");
 const commonConfig = require("./common");
 
 module.exports = (dirname, config) => {
-  const { host, port } = config;
+  const { host, port, proxy } = config;
   return merge(commonConfig(dirname), {
     mode: "development",
     entry: [
@@ -29,6 +29,7 @@ module.exports = (dirname, config) => {
       host: host,
       hot: true, // enable HMR on the server
       open: "Google Chrome",
+      proxy,
     },
     devtool: "eval-source-map",
     plugins: [
