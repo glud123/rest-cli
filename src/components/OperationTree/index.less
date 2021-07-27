@@ -1,0 +1,61 @@
+.operation-tree {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .ot-header {
+    flex: 0 0 39px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bolder;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .ot-container {
+    flex: 1;
+    overflow: hidden;
+    ul {
+      display: block;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      padding: 16px 0;
+      overflow-y: auto;
+      .ot-list-item-wrapper {
+        list-style: none;
+        padding: 0 16px;
+        cursor: pointer;
+        .ot-list-item {
+          height: 24px;
+          display: flex;
+          flex-wrap: nowrap;
+          align-items: center;
+          label {
+            padding-right: 8px;
+          }
+          .ot-list-item-content {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            &:hover {
+              background-color: #a3d2da;
+            }
+          }
+          .ot-list-item-active {
+            background-color: #056676;
+            color: #a3d2da;
+            &:hover {
+              color: #333333;
+            }
+          }
+        }
+        .ot-child-container {
+          padding: 0 8px;
+          ul {
+            padding: 8px;
+          }
+        }
+      }
+    }
+  }
+}

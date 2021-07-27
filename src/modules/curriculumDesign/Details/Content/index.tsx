@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Table, Input, Button, Dropdown, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
-import OperationList from "@/components/OperationList";
+import OperationTree from "@/components/OperationTree";
 import { columns } from "./columnsOptions";
 
 const Content = () => {
@@ -61,7 +61,73 @@ const Content = () => {
   return (
     <div className="curriculum-content">
       <div className="cc-left">
-        <OperationList data={[]} onChange={handleChange} />
+        <OperationTree
+          dataSource={[
+            {
+              id: 11,
+              stepName: "111",
+              stepDesc: "111",
+              level: 1,
+              parentId: null,
+              leaf: 0,
+              sort: 0,
+              subList: [
+                {
+                  id: 1101,
+                  stepName: "1101",
+                  stepDesc: "1101",
+                  level: 2,
+                  parentId: 11,
+                  leaf: 1,
+                  sort: 0,
+                  subList: undefined,
+                },
+                {
+                  id: 1102,
+                  stepName: "1102",
+                  stepDesc: "1102",
+                  level: 2,
+                  parentId: 11,
+                  leaf: 1,
+                  sort: 1,
+                  subList: undefined,
+                },
+              ],
+            },
+            {
+              id: 12,
+              stepName: "12",
+              stepDesc: "12",
+              level: 1,
+              parentId: null,
+              leaf: 0,
+              sort: 0,
+              subList: [
+                {
+                  id: 1201,
+                  stepName: "1201",
+                  stepDesc: "1201",
+                  level: 2,
+                  parentId: 12,
+                  leaf: 1,
+                  sort: 0,
+                  subList: undefined,
+                },
+                {
+                  id: 1202,
+                  stepName: "1202",
+                  stepDesc: "1202",
+                  level: 2,
+                  parentId: 12,
+                  leaf: 1,
+                  sort: 1,
+                  subList: undefined,
+                },
+              ],
+            },
+          ]}
+          onChange={handleChange}
+        />
       </div>
       <div className="cc-right">
         <div className="cc-right-form">
