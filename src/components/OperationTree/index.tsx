@@ -45,110 +45,102 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
     }
   }, [dataSource]);
 
-  useEffect(() => {
-    if (currentItem && list.length > 0) {
-      let nextListData = changeTreeData(list, currentItem);
-      setList([...nextListData]);
-    }
-  }, [currentItem]);
-
   const handleBtnClick = (k: "add" | "add_child" | "del" | "up" | "down") => {
-    let nextTreeNode: TreeListItem = {
-      level: 1,
-      leaf: 1,
-      sort: 0,
-      stepName: "",
-      stepDesc: "",
-      parentId: null,
-      subList: undefined,
-      _label: "",
-      _isSelected: true,
-      _isExpanded: true,
-    };
+    // 如果有新增状态的数据，则不允许操作
+    let flag = checkTreeDataHasNew(list);
+    // TODO: 添加提示 请先保存阶段内容，再进行操作
+    if (flag) return;
+    // 使用初始状态的列表数据
+    let restList = resetTreeData(list);
 
-    if (k === "add") {
-      // 不能同时添加多条数据
-      if (list[list.length - 1].id === undefined) {
-        return;
-      }
-      if (currentItem) {
-        const sort = list.length;
-
-        nextTreeNode = {
-          ...currentItem,
-          id: undefined,
-          leaf: 1,
-          sort: sort + 1,
-          stepName: `阶段 ${sort + 1}`,
-          stepDesc: "",
-          subList: undefined,
-          _label: `阶段 ${sort + 1}`,
-          _isSelected: true,
-          _isExpanded: true,
-        };
-        if (currentItem.level === 2) {
-          let parent = list.find((item) => {
-            return currentItem.parentId === item.id;
-          });
-          if (parent?.subList) {
-            parent.subList = [...parent.subList, nextTreeNode];
-            setList([...list, parent]);
-            setCurrentItem(nextTreeNode);
-          }
-        } else {
+    // 新增节点操作
+    if (k === "add" || k === "add_child") {
+      // 新增树节点
+      let nextTreeNode: TreeListItem = {
+        level: 1,
+        leaf: 1,
+        sort: 0,
+        stepName: "",
+        stepDesc: "",
+        parentId: null,
+        subList: undefined,
+        _label: "",
+        _isSelected: true,
+        _isExpanded: true,
+      };
+      // 新增一级节点
+      if (k === "add") {
+        if (!currentItem || (currentItem && currentItem.level === 1)) {
+          // 添加一级节点
+          const sort = restList.length;
+          let label = `阶段 ${sort + 1}`;
+          nextTreeNode.sort = sort;
+          nextTreeNode.stepName = label;
+          nextTreeNode._label = label;
           setCurrentItem(nextTreeNode);
-          setList([...list, nextTreeNode]);
+          setList([...restList, nextTreeNode]);
         }
-      } else {
-        setCurrentItem(nextTreeNode);
-        setList([...list, nextTreeNode]);
-      }
-    }
-    if (k === "add_child") {
-      // 不能同时添加多条数据
-      if (list[list.length - 1].id === undefined) {
-        return;
-      }
-      if (currentItem) {
-        const newSort = currentItem.subList?.length || 0;
-
-        nextTreeNode = {
-          ...currentItem,
-          id: undefined,
-          level: 2,
-          leaf: 1,
-          sort: newSort,
-          stepName: `子阶段 ${newSort + 1}`,
-          stepDesc: "",
-          parentId: null,
-          subList: undefined,
-          _label: `子阶段 ${newSort + 1}`,
-          _isSelected: true,
-          _isExpanded: true,
-        };
-        if (currentItem.subList) {
-          currentItem.subList = [...currentItem.subList, nextTreeNode];
-        } else {
-          currentItem.subList = [nextTreeNode];
+        if (currentItem && currentItem.level === 2) {
+          // 选中二级节点添加二级节点
+          const { parentId } = currentItem as TreeListItem;
+          // 通过当前选中的节点找到共同父节点
+          let parentItem = restList.find((item) => item.id === parentId);
+          const { id, subList } = parentItem as TreeListItem;
+          const sort = (subList as TreeListItem[]).length;
+          let label = `子阶段 ${sort + 1}`;
+          nextTreeNode.sort = sort;
+          nextTreeNode.stepName = label;
+          nextTreeNode._label = label;
+          nextTreeNode.level = 2;
+          nextTreeNode.parentId = id as number | null;
+          ((parentItem as TreeListItem).subList as TreeListItem[]) = [
+            ...(subList as TreeListItem[]),
+            nextTreeNode,
+          ];
+          setCurrentItem(nextTreeNode);
+          setList([...restList]);
         }
-        let nextList = changeTreeData(list, nextTreeNode);
-        console.log(nextList);
+      }
+      // 新增二级节点
+      if (k === "add_child") {
+        const { id, subList } = currentItem as TreeListItem;
+        // 选中 一级 节点 情况下添加 二级节点
+        if (!subList) {
+          (currentItem as TreeListItem).subList = [];
+        }
+        let childList = (currentItem as TreeListItem).subList;
+        const sort = (childList as TreeListItem[]).length;
+        let label = `子阶段 ${sort + 1}`;
+        nextTreeNode.sort = sort;
+        nextTreeNode.stepName = label;
+        nextTreeNode._label = label;
+        nextTreeNode.level = 2;
+        nextTreeNode.parentId = id as number | null;
+        (currentItem as TreeListItem).subList = [
+          ...(childList as TreeListItem[]),
+          nextTreeNode,
+        ];
         setCurrentItem(nextTreeNode);
-        setList(nextList);
+        let nextList = restList.map((item) => {
+          if (item.id === id) {
+            return currentItem as TreeListItem;
+          }
+          return item;
+        });
+        setList([...nextList]);
       }
     }
     if (k === "del") {
-      // if (list.length === 0) return;
-      // let nexNum = num;
-      // if (nexNum > list.length - 1 && nexNum > 0) {
-      //   nexNum = nexNum - 1;
-      // }
-      // list.splice(nexNum, 1);
-      // let nextList = list.map((item, index) => {
-      //   return { ...item, _label: `阶段 ${index + 1} ` };
-      // });
-      // setList([...nextList]);
-      // setNum(num === 0 ? 0 : num - 1);
+      if (currentItem && currentItem.level === 1) {
+        if (currentItem.subList && currentItem.subList.length > 0) {
+          // TODO: 添加提示 请先删除子阶段后在操作
+          return;
+        }
+      }
+      if (currentItem && currentItem.level === 2) {
+        // TODO: 添加提示 是否要删除当前阶段
+        return;
+      }
     }
     if (k === "up") {
       // let preIndex = num - 1 >= 0 ? num - 1 : 0;
@@ -283,6 +275,11 @@ interface createTreeDataInterface {
   (dataSource: TreeItem[]): TreeListItem[];
 }
 
+/**
+ * 创建树对象
+ * @param dataSource
+ * @returns
+ */
 const createTreeData: createTreeDataInterface = (dataSource) => {
   let listData = dataSource.map((item, index) => {
     const { sort, level, subList } = item;
@@ -300,26 +297,58 @@ const createTreeData: createTreeDataInterface = (dataSource) => {
   return listData;
 };
 
-interface changeTreeDataInterface {
-  (dataSource: TreeListItem[], currentItem: TreeListItem): TreeListItem[];
+interface resetTreeDataInterface {
+  (dataSource: TreeListItem[]): TreeListItem[];
 }
 
-const changeTreeData: changeTreeDataInterface = (dataSource, currentItem) => {
-  let listData = dataSource.map((item, index) => {
-    const { subList } = item;
-    if (currentItem.id === item.id) {
-      item = currentItem;
-    } else {
-      if (currentItem.id) {
-        item._isSelected = false;
+/**
+ * 变更树对象
+ * @param dataSource
+ * @returns
+ */
+const resetTreeData: resetTreeDataInterface = (dataSource) => {
+  const resetFn = (list: TreeListItem[]) => {
+    for (let i = 0; i < list.length; i++) {
+      const { subList, _isExpanded, _isSelected } = list[i];
+      if (subList && subList.length > 0) {
+        resetFn(subList);
+      }
+      if (_isSelected === true || _isExpanded === false) {
+        list[i]._isExpanded = true;
+        list[i]._isSelected = false;
+        break;
       }
     }
-    if (subList && subList.length > 0) {
-      item.subList = changeTreeData(subList, currentItem);
+  };
+  resetFn(dataSource);
+  return dataSource;
+};
+
+interface checkTreeDatainterface {
+  (dataSource: TreeListItem[]): boolean;
+}
+
+/**
+ * 校验树对象 是否有新增节点
+ * @param dataSource
+ * @returns {boolean} true 没有新增节点 false 有新增节点
+ */
+const checkTreeDataHasNew: checkTreeDatainterface = (dataSource) => {
+  let flag = false;
+  const checkFn = (list: TreeListItem[]) => {
+    for (let i = 0; i < list.length; i++) {
+      const { subList, id } = list[i];
+      if (subList && subList.length > 0) {
+        checkFn(subList);
+      }
+      if (id == undefined) {
+        flag = true;
+        break;
+      }
     }
-    return item;
-  });
-  return listData;
+  };
+  checkFn(dataSource);
+  return flag;
 };
 
 export default OperationTree;
