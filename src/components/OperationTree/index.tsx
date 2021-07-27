@@ -50,11 +50,11 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
     let flag = checkTreeDataHasNew(list);
     // TODO: 添加提示 请先保存阶段内容，再进行操作
     if (flag) return;
-    // 使用初始状态的列表数据
-    let restList = resetTreeData(list);
 
     // 新增节点操作
     if (k === "add" || k === "add_child") {
+      // 使用初始状态的列表数据
+      let restList = resetTreeData(list);
       // 新增树节点
       let nextTreeNode: TreeListItem = {
         level: 1,
@@ -142,39 +142,69 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
         return;
       }
     }
-    if (k === "up") {
-      // let preIndex = num - 1 >= 0 ? num - 1 : 0;
-      // const preItem = list[preIndex];
-      // const _label = preItem._label;
-      // list[preIndex] = list[num];
-      // list[num] = preItem;
-      // list[num]._label = list[preIndex]._label;
-      // list[preIndex]._label = _label;
-      // setList([...list]);
-      // setNum(preIndex);
-    }
-    if (k === "down") {
-      //   let nextIndex = num + 1 <= list.length - 1 ? num + 1 : list.length - 1;
-      //   const nextItem = list[nextIndex];
-      //   const _label = nextItem._label;
-      //   list[nextIndex] = list[num];
-      //   list[num] = nextItem;
-      //   list[num]._label = list[nextIndex]._label;
-      //   list[nextIndex]._label = _label;
-      //   setList([...list]);
-      //   setNum(nextIndex);
+    if (k === "up" || k === "down") {
+      const { sort, level } = currentItem as TreeListItem;
+
+      if (k === "up") {
+        if (level === 1) {
+          if (sort === 0) {
+            return;
+          }
+          let pre = sort - 1 >= 0 ? sort - 1 : 0;
+          const preItem = list[pre];
+          const _label = preItem._label;
+          const _sort = preItem.sort;
+          list[pre] = list[sort];
+          list[sort] = preItem;
+          list[sort].sort = list[pre].sort;
+          list[pre].sort = _sort;
+          list[sort]._label = list[pre]._label;
+          list[pre]._label = _label;
+
+          setList([...list]);
+          setCurrentItem(list[pre]);
+        }
+        if (level === 2) {
+        }
+      }
+
+      if (k === "down") {
+        if (level === 1) {
+          if (sort === list.length - 1) {
+            return;
+          }
+          let next = sort + 1 < list.length ? sort + 1 : list.length - 1;
+          const nextItem = list[next];
+          const _label = nextItem._label;
+          const _sort = nextItem.sort;
+          list[next] = list[sort];
+          list[sort] = nextItem;
+          list[sort].sort = list[next].sort;
+          list[next].sort = _sort;
+          list[sort]._label = list[next]._label;
+          list[next]._label = _label;
+          setList([...list]);
+          setCurrentItem(list[next]);
+        }
+        if (level === 2) {
+        }
+      }
     }
   };
 
   const handleItemSelected = (item: TreeListItem) => {
+    let restList = resetTreeData(list);
     item._isSelected = true;
     setCurrentItem(item);
+    setList([...restList]);
   };
 
   const handleItemExpanded = (item: TreeListItem) => {
+    let restList = resetTreeData(list);
     item._isSelected = true;
-    item._isExpanded = !item._isExpanded;
-    setCurrentItem(item);
+    item._isExpanded = !!!item._isExpanded;
+    setCurrentItem({ ...item });
+    setList([...restList]);
   };
 
   const createTreeNode = (treeList: TreeListItem[]) => {
@@ -302,7 +332,7 @@ interface resetTreeDataInterface {
 }
 
 /**
- * 变更树对象
+ * 重置树对象
  * @param dataSource
  * @returns
  */

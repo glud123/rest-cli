@@ -101,7 +101,7 @@ const Content = () => {
               level: 1,
               parentId: null,
               leaf: 0,
-              sort: 0,
+              sort: 1,
               subList: [
                 {
                   id: 1201,
