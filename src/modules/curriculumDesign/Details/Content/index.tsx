@@ -4,6 +4,8 @@ import { DownOutlined } from "@ant-design/icons";
 import OperationTree from "@/components/OperationTree";
 import { columns } from "./columnsOptions";
 
+import type { TreeItem } from "@/components/OperationTree";
+
 const Content = () => {
   const onFinish = (values: any) => {
     console.log("Success:", values);
@@ -13,11 +15,8 @@ const Content = () => {
     console.log("Failed:", errorInfo);
   };
 
-  const handleChange = (
-    index: number | undefined,
-    list: { value: string; [k: string]: any }[]
-  ) => {
-    console.log(index, list);
+  const handleChange = (treeItem: TreeItem) => {
+    console.log(treeItem);
   };
 
   const handleMenuClick = (e: any) => {

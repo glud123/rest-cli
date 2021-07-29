@@ -3,12 +3,22 @@ import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 const open = (message: string) => {
-  Modal.confirm({
-    title: "确认",
-    icon: <ExclamationCircleOutlined />,
-    content: `${message}？`,
-    okText: "确认",
-    cancelText: "取消",
+  return new Promise((resolve, reject) => {
+    const modal = Modal.confirm({
+      title: "警告",
+      icon: <ExclamationCircleOutlined />,
+      content: `${message}？`,
+      onOk: () => {
+        modal.destroy();
+        resolve(true);
+      },
+      onCancel: () => {
+        modal.destroy();
+        reject();
+      },
+      okText: "确认",
+      cancelText: "取消",
+    });
   });
 };
 

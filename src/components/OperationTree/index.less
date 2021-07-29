@@ -3,7 +3,8 @@
   display: flex;
   flex-direction: column;
   .ot-header {
-    flex: 0 0 39px;
+    flex: 0 0 50px;
+    padding-bottom: 14px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -26,7 +27,6 @@
         padding: 0 16px;
         cursor: pointer;
         .ot-list-item {
-          height: 24px;
           display: flex;
           flex-wrap: nowrap;
           align-items: center;
@@ -34,9 +34,11 @@
             padding-right: 8px;
           }
           .ot-list-item-content {
+            width: 100%;
             display: flex;
             flex-wrap: nowrap;
             align-items: center;
+            padding: 4px 8px;
             &:hover {
               background-color: #a3d2da;
             }
@@ -50,9 +52,15 @@
           }
         }
         .ot-child-container {
-          padding: 0 8px;
           ul {
-            padding: 8px;
+            padding: 0px;
+            .ot-list-item-wrapper {
+              padding-left: 22px;
+              padding-right: 0px;
+              .ot-list-item-content{
+                padding-left: 16px;
+              }
+            }
           }
         }
       }

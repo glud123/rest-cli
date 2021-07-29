@@ -4,15 +4,15 @@ import {
   ArrowUpOutlined,
   ArrowDownOutlined,
   MinusOutlined,
-  CaretRightOutlined,
   CaretDownOutlined,
   BlockOutlined,
 } from "@ant-design/icons";
+import { Popover } from "antd";
 import Message from "@/components/Message";
 import Confirm from "@/components/Confirm";
 import "./index.less";
 
-interface TreeItem<T = any> {
+export interface TreeItem<T = any> {
   id?: number;
   stepName: string;
   stepDesc?: string;
@@ -31,7 +31,7 @@ interface TreeListItem extends TreeItem<TreeListItem> {
 
 interface OperationTreePropsInterface {
   dataSource: TreeItem<TreeItem>[];
-  onChange: (index: any, list: any) => void;
+  onChange: (item: TreeItem) => void;
 }
 
 const OperationTree: FC<OperationTreePropsInterface> = (props) => {
@@ -43,6 +43,7 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
     if (dataSource && dataSource.length > 0) {
       let listData = createTreeData(dataSource);
       setList(listData);
+      listData[0]._isSelected = true;
       setCurrentItem(listData[0]);
     }
   }, [dataSource]);
@@ -51,7 +52,7 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
     // 如果有新增状态的数据，则不允许操作
     let flag = checkTreeDataHasNew(list);
 
-    if (flag) {
+    if (flag && currentItem && currentItem.id) {
       Message.open({ message: "请先保存阶段内容，再进行后续操作" });
       return;
     }
@@ -140,10 +141,47 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
         if (currentItem.subList && currentItem.subList.length > 0) {
           Message.open({ message: "请先删除子阶段后在操作" });
           return;
+        } else {
+          Confirm.open("确定删除当前阶段").then(() => {
+            if (currentItem.id) {
+              // TODO: 删除当前阶段
+            } else {
+              let nextList = removeTreeDataHasNew(list);
+              let preSort = currentItem.sort - 1;
+              if (preSort < 0) {
+                preSort = 0;
+              }
+              let preItem = nextList.find((item) => item.sort === preSort);
+              setCurrentItem(preItem);
+              setList([...nextList]);
+            }
+          });
         }
       }
       if (currentItem && currentItem.level === 2) {
-        Confirm.open("是否要删除当前阶段");
+        Confirm.open("确定删除当前阶段").then(() => {
+          let parentItem = list.find(
+            (item) => item.id === currentItem.parentId
+          ) as TreeListItem;
+          if (currentItem.id) {
+            // TODO: 删除当前阶段
+          } else {
+            let nextList = removeTreeDataHasNew(list);
+            let preSort = currentItem.sort - 1;
+            if (preSort < 0) {
+              preSort = 0;
+            }
+            let preItem = (parentItem.subList || []).find(
+              (item) => item.sort === preSort
+            );
+            if (preItem) {
+              setCurrentItem(preItem);
+            } else {
+              setCurrentItem(parentItem);
+            }
+            setList([...nextList]);
+          }
+        });
         return;
       }
     }
@@ -239,9 +277,10 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
   };
 
   const handleItemExpanded = (item: TreeListItem) => {
+    let _isExpanded = item._isExpanded;
     let restList = resetTreeData(list);
     item._isSelected = true;
-    item._isExpanded = !!!item._isExpanded;
+    item._isExpanded = !!!_isExpanded;
     setCurrentItem({ ...item });
     setList([...restList]);
   };
@@ -279,13 +318,38 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
   return (
     <div className="operation-tree">
       <div className="ot-header">
-        <PlusOutlined onClick={() => handleBtnClick("add")} />
+        <Popover content={"添加同级阶段"}>
+          <PlusOutlined
+            className="icon-wrap"
+            onClick={() => handleBtnClick("add")}
+          />
+        </Popover>
         {currentItem?.level === 1 && (
-          <BlockOutlined onClick={() => handleBtnClick("add_child")} />
+          <Popover content={"添加子阶段"}>
+            <BlockOutlined
+              className="icon-wrap"
+              onClick={() => handleBtnClick("add_child")}
+            />
+          </Popover>
         )}
-        <ArrowUpOutlined onClick={() => handleBtnClick("up")} />
-        <ArrowDownOutlined onClick={() => handleBtnClick("down")} />
-        <MinusOutlined onClick={() => handleBtnClick("del")} />
+        <Popover content={"上移选中阶段"}>
+          <ArrowUpOutlined
+            className="icon-wrap"
+            onClick={() => handleBtnClick("up")}
+          />
+        </Popover>
+        <Popover content={"下移选中阶段"}>
+          <ArrowDownOutlined
+            className="icon-wrap"
+            onClick={() => handleBtnClick("down")}
+          />
+        </Popover>
+        <Popover content={"删除选中阶段"}>
+          <MinusOutlined
+            className="icon-wrap"
+            onClick={() => handleBtnClick("del")}
+          />
+        </Popover>
       </div>
       <div className="ot-container">{createTreeNode(list)}</div>
     </div>
@@ -304,22 +368,16 @@ const OperationTreeItem: FC<OperationTreeItemPropsInterface> = (props) => {
   return (
     <li className="ot-list-item-wrapper">
       <div className="ot-list-item">
-        {leaf === 0 &&
-          (_isExpanded ? (
-            <CaretDownOutlined
-              onClick={(e) => {
-                onExpanded(data);
-                e.stopPropagation();
-              }}
-            />
-          ) : (
-            <CaretRightOutlined
-              onClick={(e) => {
-                onExpanded(data);
-                e.stopPropagation();
-              }}
-            />
-          ))}
+        {leaf === 0 && (
+          <CaretDownOutlined
+            rotate={_isExpanded ? 0 : -90}
+            className="icon-padding-4"
+            onClick={(e) => {
+              onExpanded(data);
+              e.stopPropagation();
+            }}
+          />
+        )}
         <div
           onClick={(e) => {
             onClick(data);
@@ -418,6 +476,31 @@ const checkTreeDataHasNew: checkTreeDatainterface = (dataSource) => {
   };
   checkFn(dataSource);
   return flag;
+};
+
+interface removeTreeDatainterface {
+  (dataSource: TreeListItem[], remove_id?: number): TreeListItem[];
+}
+
+/**
+ * 校验树对象 是否有新增节点
+ * @param dataSource
+ * @returns {boolean} true 没有新增节点 false 有新增节点
+ */
+const removeTreeDataHasNew: removeTreeDatainterface = (
+  dataSource,
+  remove_id
+) => {
+  const removeFn = (list: TreeListItem[]) => {
+    return list.filter((item) => {
+      const { subList, id } = item;
+      if (subList && subList.length > 0) {
+        item.subList = removeFn(subList);
+      }
+      return id !== remove_id;
+    });
+  };
+  return removeFn(dataSource);
 };
 
 export default OperationTree;

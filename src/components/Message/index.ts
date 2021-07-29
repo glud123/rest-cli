@@ -5,7 +5,6 @@ AntdMessage.config({
   top: 10,
   duration: 2,
   maxCount: 2,
-  rtl: true,
 });
 
 const open = ({
