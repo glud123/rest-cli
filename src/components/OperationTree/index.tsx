@@ -53,7 +53,7 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
     // 如果有新增状态的数据，则不允许操作
     let flag = checkTreeDataHasNew(list);
 
-    if (flag && currentItem && currentItem.id) {
+    if (flag) {
       Message.open({ message: "请先保存阶段内容，再进行后续操作" });
       return;
     }
