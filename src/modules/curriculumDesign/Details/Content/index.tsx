@@ -15,7 +15,14 @@ const Content = () => {
     console.log("Failed:", errorInfo);
   };
 
-  const handleChange = (treeItem: TreeItem) => {
+  const handleChange = (
+    type: "add" | "del" | "up" | "down",
+    treeItem: TreeItem
+  ) => {
+    console.log(type, treeItem);
+  };
+
+  const handleItemSelected = (treeItem: TreeItem) => {
     console.log(treeItem);
   };
 
@@ -61,6 +68,7 @@ const Content = () => {
     <div className="curriculum-content">
       <div className="cc-left">
         <OperationTree
+          onSelected={handleItemSelected}
           dataSource={[
             {
               id: 11,

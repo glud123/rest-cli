@@ -31,11 +31,12 @@ interface TreeListItem extends TreeItem<TreeListItem> {
 
 interface OperationTreePropsInterface {
   dataSource: TreeItem<TreeItem>[];
-  onChange: (item: TreeItem) => void;
+  onChange?: (type: "add" | "del" | "up" | "down", item: TreeItem) => void;
+  onSelected?: (item: TreeItem) => void;
 }
 
 const OperationTree: FC<OperationTreePropsInterface> = (props) => {
-  const { dataSource, onChange } = props;
+  const { dataSource, onChange, onSelected } = props;
   const [list, setList] = useState<TreeListItem[]>([]);
   const [currentItem, setCurrentItem] = useState<TreeListItem>();
 
@@ -135,6 +136,8 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
         });
         setList([...nextList]);
       }
+      // 新增树节点
+      onChange && onChange("add", nextTreeNode);
     }
     if (k === "del") {
       if (currentItem && currentItem.level === 1) {
@@ -143,6 +146,8 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
           return;
         } else {
           Confirm.open("确定删除当前阶段").then(() => {
+            // 删除节点
+            onChange && onChange("del", currentItem);
             if (currentItem.id) {
               // TODO: 删除当前阶段
             } else {
@@ -160,6 +165,9 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
       }
       if (currentItem && currentItem.level === 2) {
         Confirm.open("确定删除当前阶段").then(() => {
+          // 删除节点
+          onChange && onChange("del", currentItem);
+          // 二级节点操作先找到共同父节点
           let parentItem = list.find(
             (item) => item.id === currentItem.parentId
           ) as TreeListItem;
@@ -206,8 +214,10 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
 
           setList([...list]);
           setCurrentItem(list[pre]);
+          onChange && onChange("up", list[pre]);
         }
         if (level === 2) {
+          // 二级节点操作先找到共同父节点
           let parentItem = (list as TreeListItem[]).find(
             (item) => item.id === parentId
           );
@@ -225,6 +235,7 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
 
           setList([...list]);
           setCurrentItem(parentList[pre]);
+          onChange && onChange("up", parentList[pre]);
         }
       }
 
@@ -245,6 +256,7 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
           list[next]._label = _label;
           setList([...list]);
           setCurrentItem(list[next]);
+          onChange && onChange("down", list[next]);
         }
         if (level === 2) {
           let parentItem = (list as TreeListItem[]).find(
@@ -264,6 +276,7 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
           parentList[next]._label = _label;
           setList([...list]);
           setCurrentItem(parentList[next]);
+          onChange && onChange("down", parentList[next]);
         }
       }
     }
@@ -274,6 +287,7 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
     item._isSelected = true;
     setCurrentItem(item);
     setList([...restList]);
+    onSelected && onSelected(item);
   };
 
   const handleItemExpanded = (item: TreeListItem) => {
