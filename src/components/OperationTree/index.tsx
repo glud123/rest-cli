@@ -8,6 +8,8 @@ import {
   CaretDownOutlined,
   BlockOutlined,
 } from "@ant-design/icons";
+import Message from "@/components/Message";
+import Confirm from "@/components/Confirm";
 import "./index.less";
 
 interface TreeItem<T = any> {
@@ -48,8 +50,11 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
   const handleBtnClick = (k: "add" | "add_child" | "del" | "up" | "down") => {
     // 如果有新增状态的数据，则不允许操作
     let flag = checkTreeDataHasNew(list);
-    // TODO: 添加提示 请先保存阶段内容，再进行操作
-    if (flag) return;
+
+    if (flag) {
+      Message.open({ message: "请先保存阶段内容，再进行后续操作" });
+      return;
+    }
 
     // 新增节点操作
     if (k === "add" || k === "add_child") {
@@ -133,17 +138,17 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
     if (k === "del") {
       if (currentItem && currentItem.level === 1) {
         if (currentItem.subList && currentItem.subList.length > 0) {
-          // TODO: 添加提示 请先删除子阶段后在操作
+          Message.open({ message: "请先删除子阶段后在操作" });
           return;
         }
       }
       if (currentItem && currentItem.level === 2) {
-        // TODO: 添加提示 是否要删除当前阶段
+        Confirm.open("是否要删除当前阶段");
         return;
       }
     }
     if (k === "up" || k === "down") {
-      const { sort, level } = currentItem as TreeListItem;
+      const { sort, level, parentId } = currentItem as TreeListItem;
 
       if (k === "up") {
         if (level === 1) {
@@ -165,6 +170,23 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
           setCurrentItem(list[pre]);
         }
         if (level === 2) {
+          let parentItem = (list as TreeListItem[]).find(
+            (item) => item.id === parentId
+          );
+          let parentList = parentItem?.subList || [];
+          let pre = sort - 1 >= 0 ? sort - 1 : 0;
+          const preItem = parentList[pre];
+          const _label = preItem._label;
+          const _sort = preItem.sort;
+          parentList[pre] = parentList[sort];
+          parentList[sort] = preItem;
+          parentList[sort].sort = parentList[pre].sort;
+          parentList[pre].sort = _sort;
+          parentList[sort]._label = parentList[pre]._label;
+          parentList[pre]._label = _label;
+
+          setList([...list]);
+          setCurrentItem(parentList[pre]);
         }
       }
 
@@ -187,6 +209,23 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
           setCurrentItem(list[next]);
         }
         if (level === 2) {
+          let parentItem = (list as TreeListItem[]).find(
+            (item) => item.id === parentId
+          );
+          let parentList = parentItem?.subList || [];
+          let next =
+            sort + 1 < parentList.length ? sort + 1 : parentList.length - 1;
+          const nextItem = parentList[next];
+          const _label = nextItem._label;
+          const _sort = nextItem.sort;
+          parentList[next] = parentList[sort];
+          parentList[sort] = nextItem;
+          parentList[sort].sort = parentList[next].sort;
+          parentList[next].sort = _sort;
+          parentList[sort]._label = parentList[next]._label;
+          parentList[next]._label = _label;
+          setList([...list]);
+          setCurrentItem(parentList[next]);
         }
       }
     }
