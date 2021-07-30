@@ -122,11 +122,20 @@ module.exports = (dirname) => {
         favicon: "./src/assets/favicon.ico",
       }),
       new CopyPlugin({
-          patterns: [
-              {
-                  from: "./_redirects", to: "./",
-              },
-          ],
+        patterns: [
+          {
+            from: "./_redirects",
+            to: "./",
+          },
+          {
+            from: "./public/javascript",
+            to: "./javascript",
+          },
+          {
+            from: "./public/color.less",
+            to: "./css",
+          },
+        ],
       }),
       new DefinePlugin({
         SNOWPACK_PUBLIC_PAGE_PATH: JSON.stringify(

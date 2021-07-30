@@ -4,8 +4,8 @@
   "description": "",
   "scripts": {
     "preinstall": "NPM_FLAGS=7.10.0 npm install -g pnpm || pnpm install --shamefully-hoist",
-    "dev": "webpack serve --progress --color --config=webpack.config.js",
-    "build": "cross-env NODE_ENV=production webpack --progress --color --config=webpack.config.js",
+    "dev": "node color && webpack serve --progress --color --config=webpack.config.js",
+    "build": "node color && cross-env NODE_ENV=production webpack --progress --color --config=webpack.config.js",
     "stats": "webpack --analyze"
   },
   "engines": {
@@ -32,6 +32,7 @@
     "@types/react-router-dom": "^5.1.7",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
+    "antd-theme-generator": "^1.2.8",
     "autoprefixer": "^10.2.5",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.2.2",

@@ -28,7 +28,7 @@ module.exports = (dirname, config) => {
       port: port,
       host: host,
       hot: true, // enable HMR on the server
-      open: "Google Chrome",
+      open: "Google Chrome Canary",
       proxy,
     },
     devtool: "eval-source-map",
