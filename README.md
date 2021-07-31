@@ -5,6 +5,7 @@
 webpack5.0 react 17.0 前端项目脚手架
 
 依赖安装
+
 ```
 pnpm install --shamefully-hoist
 ```
@@ -21,12 +22,15 @@ pnpm run dev
 pnpm run build
 ```
 
-## 环境变量
+## 主题说明
 
+开发阶段时，主题色适配后，需要重新编译才会生效。
+
+## 环境变量
 
 ## 技术说明
 
-* 基础框架：React
-* 组件库：目前基于antd
-* 编译：Webpack
-* 语言：TypeScript
+- 基础框架：React
+- 组件库：目前基于 antd
+- 编译：Webpack
+- 语言：TypeScript
