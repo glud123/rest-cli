@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { Button, Steps } from "antd";
+import { Steps } from "antd";
 import Store from "@/store";
 import { Blocks, Block } from "@/components/BlockLayout";
+import ButtonGroup from "@/components/ButtonGroup";
 import Info from "./Info";
 import Content from "./Content";
 import Deploy from "./Deploy";
+import { getButtonOptions } from "./buttonOptions";
 import "./index.less";
 
 const Details = () => {
@@ -15,85 +17,36 @@ const Details = () => {
   const [current, setCurrent] = useState(0);
 
   const setOperation = useSetRecoilState(Store.platform.operationState);
-  useEffect(() => {
-    let btnArray = [
-      <Button
-        onClick={() => {
-          history.push("/curriculum-design/");
-        }}
-      >
-        返回
-      </Button>,
-    ];
-    if (current === 0) {
-      btnArray = [
-        ...btnArray,
-        <Button
-          style={{ marginLeft: "16px" }}
-          type="primary"
-          onClick={() => {
-            setCurrent(1);
-          }}
-        >
-          下一步
-        </Button>,
-      ];
-    }
-    if (current === 1) {
-      btnArray = [
-        ...btnArray,
-        <Button
-          style={{ marginLeft: "16px" }}
-          onClick={() => {
-            setCurrent(0);
-          }}
-        >
-          上一步
-        </Button>,
-        <Button
-          style={{ marginLeft: "16px" }}
-          type="primary"
-          onClick={() => {
-            setCurrent(2);
-          }}
-        >
-          下一步
-        </Button>,
-      ];
-    }
-    if (current === 2) {
-      btnArray = [
-        ...btnArray,
-        <Button
-          style={{ marginLeft: "16px" }}
-          onClick={() => {
-            setCurrent(1);
-          }}
-        >
-          上一步
-        </Button>,
-        <Button
-          type="primary"
-          style={{ marginLeft: "16px" }}
-          onClick={() => {
-            history.push("/curriculum-design/");
-          }}
-        >
-          暂存草稿
-        </Button>,
-        <Button
-          style={{ marginLeft: "16px" }}
-          type="primary"
-          onClick={() => {
-            history.push("/curriculum-design/");
-          }}
-        >
-          发布
-        </Button>,
-      ];
-    }
 
-    setOperation(btnArray);
+  const handleBtnClick = (key: string) => {
+    switch (key) {
+      case "save":
+        break;
+      case "pre":
+        setCurrent(current - 1);
+        break;
+      case "next":
+        setCurrent(current + 1);
+        break;
+      case "storage":
+        // 暂存
+        console.log(key);
+        break;
+      case "deploy":
+        // 发布
+        console.log(key);
+        break;
+      default:
+        history.push("/curriculum-design/");
+        break;
+    }
+  };
+
+  const buttonOptions = getButtonOptions(current);
+  useEffect(() => {
+    setOperation(
+      <ButtonGroup options={buttonOptions} onClick={handleBtnClick} />
+    );
   }, [current]);
 
   const onChange = (current: any) => {
