@@ -61,6 +61,10 @@ module.exports = (dirname) => {
           ],
         },
         {
+          test: /\.svg$/,
+          use: ['@svgr/webpack', 'file-loader'],
+        },
+        {
           test: /\.(ttf|eot|svg|woff|woff2)$/,
           exclude: /node_modules/,
           use: [
