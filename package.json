@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
+    "preinstall": "NPM_FLAGS=7.10.0 npm install -g pnpm || pnpm install --shamefully-hoist",
     "dev": "node theme && webpack serve --progress --color --config=webpack.config.js",
     "build": "node theme && cross-env NODE_ENV=production webpack --progress --color --config=webpack.config.js",
     "stats": "webpack --analyze"
