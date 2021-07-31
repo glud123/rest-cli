@@ -1,8 +1,10 @@
 import React from "react";
-import { Form, Table, Input, Button, Dropdown, Menu } from "antd";
+import { Form as AntdForm, Table, Input, Button, Dropdown, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import OperationTree from "@/components/OperationTree";
+import Form from "@/components/Form";
 import { columns } from "./columnsOptions";
+import { getFormOptions } from "./formOptions";
 
 import type { TreeItem } from "@/components/OperationTree";
 
@@ -64,6 +66,8 @@ const Content = () => {
       <Menu.Item key="3">其他</Menu.Item>
     </Menu>
   );
+
+  const formOptions = getFormOptions();
   return (
     <div className="curriculum-content">
       <div className="cc-left">
@@ -139,6 +143,7 @@ const Content = () => {
       <div className="cc-right">
         <div className="cc-right-form">
           <Form
+            options={formOptions}
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 14 }}
             name="basic"
@@ -146,26 +151,13 @@ const Content = () => {
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
           >
-            <Form.Item
-              label="阶段名称"
-              name="courseName"
-              required
-              rules={[
-                { required: true, message: "Please input your username!" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item label="阶段描述" name="courseDesc">
-              <Input />
-            </Form.Item>
-            <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
+            <AntdForm.Item wrapperCol={{ offset: 6, span: 16 }}>
               <Dropdown overlay={menu}>
                 <Button>
                   添加任务 <DownOutlined />
                 </Button>
               </Dropdown>
-            </Form.Item>
+            </AntdForm.Item>
           </Form>
         </div>
         <div className="cc-right-table">

@@ -1,5 +1,6 @@
 import React, { FC } from "react";
-import { AppstoreFilled, MediumSquareFilled } from "@ant-design/icons";
+import { MediumSquareFilled } from "@ant-design/icons";
+import Setting from "../Setting";
 
 const Header: FC<any> = (props) => {
   const children = props.children;
@@ -10,7 +11,7 @@ const Header: FC<any> = (props) => {
         <span className="hw-title">标题</span>
       </div>
       <div>
-        <AppstoreFilled />
+        <Setting />
       </div>
     </div>
   );

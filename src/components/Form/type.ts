@@ -1,3 +1,4 @@
+import type { Rule } from "rc-field-form/lib/interface";
 export type FormOptions = {
   options: FormOptionsItem[];
   // onChange?: (key: string, value: any, values: any) => void;
@@ -13,7 +14,8 @@ export type FormOptionsItem = {
   disabled?: boolean;
   visible?: boolean;
   placeholder?: string;
-  rules?: Promise<any>;
+  rules?: Rule[];
+  options?: any;
 };
 
 export enum FormItemTypeEnum {

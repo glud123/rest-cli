@@ -7,7 +7,7 @@ import {
   CaretDownOutlined,
   BlockOutlined,
 } from "@ant-design/icons";
-import { Popover } from "antd";
+import { Tooltip } from "antd";
 import Message from "@/components/Message";
 import Confirm from "@/components/Confirm";
 import "./index.less";
@@ -332,38 +332,38 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
   return (
     <div className="operation-tree">
       <div className="ot-header">
-        <Popover content={"添加同级阶段"}>
+        <Tooltip title={"添加同级阶段"}>
           <PlusOutlined
             className="icon-wrap"
             onClick={() => handleBtnClick("add")}
           />
-        </Popover>
+        </Tooltip>
         {currentItem?.level === 1 && (
-          <Popover content={"添加子阶段"}>
+          <Tooltip title={"添加子阶段"}>
             <BlockOutlined
               className="icon-wrap"
               onClick={() => handleBtnClick("add_child")}
             />
-          </Popover>
+          </Tooltip>
         )}
-        <Popover content={"上移选中阶段"}>
+        <Tooltip title={"上移选中阶段"}>
           <ArrowUpOutlined
             className="icon-wrap"
             onClick={() => handleBtnClick("up")}
           />
-        </Popover>
-        <Popover content={"下移选中阶段"}>
+        </Tooltip>
+        <Tooltip title={"下移选中阶段"}>
           <ArrowDownOutlined
             className="icon-wrap"
             onClick={() => handleBtnClick("down")}
           />
-        </Popover>
-        <Popover content={"删除选中阶段"}>
+        </Tooltip>
+        <Tooltip title={"删除选中阶段"}>
           <MinusOutlined
             className="icon-wrap"
             onClick={() => handleBtnClick("del")}
           />
-        </Popover>
+        </Tooltip>
       </div>
       <div className="ot-container">{createTreeNode(list)}</div>
     </div>
