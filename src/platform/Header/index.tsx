@@ -10,9 +10,7 @@ const Header: FC<any> = (props) => {
         <MediumSquareFilled />
         <span className="hw-title">标题</span>
       </div>
-      <div>
-        <Setting />
-      </div>
+      <Setting />
     </div>
   );
 };

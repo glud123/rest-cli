@@ -19,7 +19,7 @@ const Setting: FC<SettingPropsInterface> = (props) => {
 
   return (
     <>
-      <AppstoreFilled onClick={showDrawer} />
+      <Avatar icon={<UserOutlined onClick={showDrawer} />} />
       <Drawer
         placement="right"
         width={400}
