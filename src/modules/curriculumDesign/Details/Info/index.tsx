@@ -3,14 +3,6 @@ import Form from "@/components/Form";
 import { getFormOptions } from "./formOptions";
 
 const Info: FC<{ form: any }> = (props) => {
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
-  };
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-  };
-
   const formOptions = getFormOptions();
 
   return (
@@ -29,8 +21,6 @@ const Info: FC<{ form: any }> = (props) => {
           recommendHour: undefined,
           courseDesigner: "",
         }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
       ></Form>
     </div>
   );

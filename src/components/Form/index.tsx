@@ -14,9 +14,7 @@ import type { FormProps } from "antd/lib/form/index";
 import { FormOptions, FormOptionsItem, FormItemTypeEnum } from "./type";
 
 export const useForm = () => {
-  return useMemo(() => {
-    return AntdForm.useForm();
-  }, []);
+  return AntdForm.useForm();
 };
 
 const Form: FC<FormProps & FormOptions> = (props) => {

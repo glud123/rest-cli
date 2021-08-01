@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Form as AntdForm, Table, Input, Button, Dropdown, Menu } from "antd";
+import { Form as AntdForm, Table, Button, Dropdown, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import OperationTree from "@/components/OperationTree";
 import Form from "@/components/Form";
@@ -9,14 +9,6 @@ import { getFormOptions } from "./formOptions";
 import type { TreeItem } from "@/components/OperationTree";
 
 const Content: FC<{ form: any }> = (props) => {
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
-  };
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-  };
-
   const handleChange = (
     type: "add" | "del" | "up" | "down",
     treeItem: TreeItem
@@ -148,9 +140,7 @@ const Content: FC<{ form: any }> = (props) => {
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 14 }}
             name="content"
-            initialValues={{}}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
+            initialValues={{ courseName: "222", courseDesc: "" }}
           >
             <AntdForm.Item wrapperCol={{ offset: 6, span: 16 }}>
               <Dropdown overlay={menu}>

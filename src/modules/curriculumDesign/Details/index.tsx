@@ -29,9 +29,18 @@ const Details = () => {
         if (current === 0) {
           let values = info_form.getFieldsValue(true);
           console.log(values);
-
           try {
             const values = await info_form.validateFields(["courseName"]);
+            console.log("Success:", values);
+          } catch (errorInfo) {
+            console.log("Failed:", errorInfo);
+          }
+        }
+        if (current === 1) {
+          let values = content_form.getFieldsValue(true);
+          console.log(values);
+          try {
+            const values = await content_form.validateFields(["courseName"]);
             console.log("Success:", values);
           } catch (errorInfo) {
             console.log("Failed:", errorInfo);
