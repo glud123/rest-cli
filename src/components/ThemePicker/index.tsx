@@ -5,7 +5,10 @@ import Message from "../Message";
 import "./index.less";
 
 const ThemePicker = () => {
-  const [color, setColor] = useState("#00bcd4");
+  const [color, setColor] = useState(() => {
+    let color = localStorage.getItem("theme");
+    return color || "#009688";
+  });
 
   const handleChange = (color: { hex: any }) => {
     setColor(color.hex);
