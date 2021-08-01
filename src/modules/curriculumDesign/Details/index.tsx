@@ -10,6 +10,7 @@ import Content from "./Content";
 import Deploy from "./Deploy";
 import { getButtonOptions } from "./buttonOptions";
 import { useForm } from "@/components/Form";
+import { post } from "@/util/fetchUtil";
 import "./index.less";
 
 const Details = () => {
@@ -30,7 +31,8 @@ const Details = () => {
           let values = info_form.getFieldsValue(true);
           console.log(values);
           try {
-            const values = await info_form.validateFields(["courseName"]);
+            await info_form.validateFields(["courseName"]);
+            post("design/coursebase/save", values);
             console.log("Success:", values);
           } catch (errorInfo) {
             console.log("Failed:", errorInfo);

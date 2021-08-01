@@ -18,7 +18,7 @@ const Info: FC<{ form: any }> = (props) => {
           courseDesc: "",
           recommendMajor: "",
           courseTarget: "",
-          recommendHour: undefined,
+          recommendHour: "",
           courseDesigner: "",
         }}
       ></Form>
