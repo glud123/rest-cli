@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { Form as AntdForm, Table, Input, Button, Dropdown, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import OperationTree from "@/components/OperationTree";
@@ -8,7 +8,7 @@ import { getFormOptions } from "./formOptions";
 
 import type { TreeItem } from "@/components/OperationTree";
 
-const Content = () => {
+const Content: FC<{ form: any }> = (props) => {
   const onFinish = (values: any) => {
     console.log("Success:", values);
   };
@@ -143,10 +143,11 @@ const Content = () => {
       <div className="cc-right">
         <div className="cc-right-form">
           <Form
+            form={props.form}
             options={formOptions}
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 14 }}
-            name="basic"
+            name="content"
             initialValues={{}}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import {
   Form as AntdForm,
   Input,
@@ -13,8 +13,15 @@ import {
 import type { FormProps } from "antd/lib/form/index";
 import { FormOptions, FormOptionsItem, FormItemTypeEnum } from "./type";
 
+export const useForm = () => {
+  return useMemo(() => {
+    return AntdForm.useForm();
+  }, []);
+};
+
 const Form: FC<FormProps & FormOptions> = (props) => {
   const { options, children, ...args } = props;
+
   return (
     <AntdForm {...args}>
       <FormCreater options={options} />
@@ -26,15 +33,29 @@ const Form: FC<FormProps & FormOptions> = (props) => {
 const FormCreater: FC<FormOptions & any> = (props) => {
   const { options } = props;
   return options.map((optionItem: FormOptionsItem) => {
-    const { value, type, label, key, required, edit = true, visible = true, rules, options } =
-      optionItem;
+    const {
+      type,
+      label,
+      key,
+      required,
+      edit = true,
+      visible = true,
+      rules,
+      options,
+    } = optionItem;
     if (!visible) return null;
     return (
-      <AntdForm.Item key={key} label={label} required={required} rules={rules}>
+      <AntdForm.Item
+        key={key}
+        name={key}
+        label={label}
+        required={required}
+        rules={rules}
+      >
         {edit ? (
           <FormItemSwitch {...optionItem} />
         ) : (
-          <ShowItem type={type} value={value} options={options} />
+          <ShowItem type={type} options={options} />
         )}
       </AntdForm.Item>
     );
@@ -42,9 +63,11 @@ const FormCreater: FC<FormOptions & any> = (props) => {
 };
 
 const FormItemSwitch: FC<FormOptionsItem> = (props) => {
-  const { type, disabled, placeholder, options } = props;
+  const { type, disabled, placeholder, options, value, onChange } = props;
 
-  let itemOpts = {
+  const itemOpts = {
+    value,
+    onChange,
     disabled,
     placeholder,
   };
@@ -54,7 +77,7 @@ const FormItemSwitch: FC<FormOptionsItem> = (props) => {
       return <Select {...itemOpts} />;
     case FormItemTypeEnum.Radio:
       return (
-        <Radio.Group>
+        <Radio.Group {...itemOpts}>
           {options.map((option: any, index: number) => {
             const { value, label } = option;
             return (
@@ -83,7 +106,7 @@ const FormItemSwitch: FC<FormOptionsItem> = (props) => {
 
 interface ShowItemPropsInterface {
   type: FormItemTypeEnum;
-  value: any;
+  value?: any;
   options?: any;
 }
 

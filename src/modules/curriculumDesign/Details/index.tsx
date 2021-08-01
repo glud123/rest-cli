@@ -9,6 +9,7 @@ import Info from "./Info";
 import Content from "./Content";
 import Deploy from "./Deploy";
 import { getButtonOptions } from "./buttonOptions";
+import { useForm } from "@/components/Form";
 import "./index.less";
 
 const Details = () => {
@@ -18,9 +19,24 @@ const Details = () => {
 
   const setOperation = useSetRecoilState(Store.platform.operationState);
 
-  const handleBtnClick = (key: string) => {
+  const [info_form] = useForm();
+
+  const [content_form] = useForm();
+
+  const handleBtnClick = async (key: string) => {
     switch (key) {
       case "save":
+        if (current === 0) {
+          let values = info_form.getFieldsValue(true);
+          console.log(values);
+
+          try {
+            const values = await info_form.validateFields(["courseName"]);
+            console.log("Success:", values);
+          } catch (errorInfo) {
+            console.log("Failed:", errorInfo);
+          }
+        }
         break;
       case "pre":
         setCurrent(current - 1);
@@ -71,8 +87,8 @@ const Details = () => {
             </Steps>
           </div>
           <div className="cd-bottom">
-            {current === 0 && <Info />}
-            {current === 1 && <Content />}
+            {current === 0 && <Info form={info_form} />}
+            {current === 1 && <Content form={content_form} />}
             {current === 2 && <Deploy />}
           </div>
         </div>

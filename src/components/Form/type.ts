@@ -8,7 +8,6 @@ export type FormOptionsItem = {
   label: string;
   key: string;
   type: FormItemTypeEnum;
-  value: any;
   required?: boolean;
   edit?: boolean;
   disabled?: boolean;
@@ -16,6 +15,8 @@ export type FormOptionsItem = {
   placeholder?: string;
   rules?: Rule[];
   options?: any;
+  value?: any;
+  onChange?: (value: any) => void;
 };
 
 export enum FormItemTypeEnum {
