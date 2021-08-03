@@ -1,14 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { Button, Table, Radio, Input } from "antd";
 import Store from "@/store";
 import { Blocks, Block } from "@/components/BlockLayout";
 import Filter from "@/components/Filter";
+import { post } from "@/util/fetchUtil";
 import { columns } from "./columnsOptions";
 
 const List = () => {
   let history = useHistory();
+
+  const [query, setQuery] = useState<{ [k: string]: string }>();
+  const [loading, setLoading] = useState(false);
+  const [list, setList] = useState<any[]>();
 
   const setOperation = useSetRecoilState(Store.platform.operationState);
   useEffect(() => {
@@ -24,31 +29,18 @@ const List = () => {
     );
   }, []);
 
-  const onSearch = (value: any) => console.log(value);
+  useEffect(() => {
+    setLoading(true);
+    post("design/courses/list", query).then((res) => {
+      setList(res);
+    }).finally(()=>{
+      setLoading(false);
+    });
+  }, [query]);
 
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-      tags: ["nice", "developer"],
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      tags: ["loser"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sidney No. 1 Lake Park",
-      tags: ["cool", "teacher"],
-    },
-  ];
+  const onSearch = (value: any) => {
+    setQuery({ keyword: value });
+  };
 
   return (
     <Blocks row={2}>
@@ -70,7 +62,7 @@ const List = () => {
         </Filter>
       </Block>
       <Block row={2}>
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={list} />
       </Block>
     </Blocks>
   );

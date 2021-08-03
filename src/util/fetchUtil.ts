@@ -23,11 +23,7 @@ export const get = (url: string, data: any) => {
  * @param data {any}
  * @returns Promise<any>
  */
-export const post = (url: string, data: any) => {
-  if (!data) {
-    console.error(`data is undefined`);
-    return;
-  }
+export const post = (url: string, data: any = {}) => {
   let formData = "";
   Object.keys(data).forEach((key, index) => {
     if (index === 0) {
