@@ -62,7 +62,7 @@ const List = () => {
         </Filter>
       </Block>
       <Block row={2}>
-        <Table columns={columns} dataSource={list} />
+        <Table rowKey="id" columns={columns} dataSource={list} />
       </Block>
     </Blocks>
   );

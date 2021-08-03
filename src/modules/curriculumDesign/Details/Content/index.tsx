@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Form as AntdForm, Table, Button, Dropdown, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import OperationTree from "@/components/OperationTree";
@@ -9,6 +9,10 @@ import { getFormOptions } from "./formOptions";
 import type { TreeItem } from "@/components/OperationTree";
 
 const Content: FC<{ form: any }> = (props) => {
+  const [list, setList] = useState();
+
+  const [current, setCurrent] = useState();
+
   const handleChange = (
     type: "add" | "del" | "up" | "down",
     treeItem: TreeItem
@@ -21,32 +25,8 @@ const Content: FC<{ form: any }> = (props) => {
   };
 
   const handleMenuClick = (e: any) => {
-    console.log("click", e);
+    setCurrent(e.key);
   };
-
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-      tags: ["nice", "developer"],
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      tags: ["loser"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sidney No. 1 Lake Park",
-      tags: ["cool", "teacher"],
-    },
-  ];
 
   const menu = (
     <Menu onClick={handleMenuClick}>
@@ -152,9 +132,10 @@ const Content: FC<{ form: any }> = (props) => {
           </Form>
         </div>
         <div className="cc-right-table">
-          <Table columns={columns} dataSource={data} />
+          <Table columns={columns} dataSource={list} />
         </div>
       </div>
+      
     </div>
   );
 };
