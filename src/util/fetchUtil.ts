@@ -24,22 +24,30 @@ export const get = (url: string, data: any) => {
  * @returns Promise<any>
  */
 export const post = (url: string, data: any = {}) => {
-  let formData = "";
-  Object.keys(data).forEach((key, index) => {
-    if (index === 0) {
-      formData += `${key}=${data[key]}`;
-    } else {
-      formData += `&${key}=${data[key]}`;
-    }
-  });
+  // let formData = "";
+  // Object.keys(data).forEach((key, index) => {
+  //   if (index === 0) {
+  //     formData += `${key}=${data[key]}`;
+  //   } else {
+  //     formData += `&${key}=${data[key]}`;
+  //   }
+  // });
   return fetch(`/cts/${url}`, {
-    body: formData,
+    body: JSON.stringify(data),
     credentials: "include", // include, same-origin, *omit
     headers: {
-      "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
+      "content-type": "application/json;charset=UTF-8",
     },
     method: "POST", // *GET, POST, PUT, DELETE, etc.
-  }).then((response) => response.json()); // parses response to JSON
+  })
+    .then((response) => response.json())
+    .then(({ code, ...data }) => {
+      if (code === "200") {
+        return data;
+      } else {
+        return null;
+      }
+    }); // parses response to JSON
 };
 
 export const upload = (url: string, data: { [k: string]: any }) => {

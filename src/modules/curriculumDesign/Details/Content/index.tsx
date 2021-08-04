@@ -5,6 +5,7 @@ import OperationTree from "@/components/OperationTree";
 import Form from "@/components/Form";
 import { columns } from "./columnsOptions";
 import { getFormOptions } from "./formOptions";
+import { Task, Exam, HomeWork, Experience } from "./component";
 
 import type { TreeItem } from "@/components/OperationTree";
 
@@ -30,12 +31,10 @@ const Content: FC<{ form: any }> = (props) => {
 
   const menu = (
     <Menu onClick={handleMenuClick}>
-      <Menu.Item key="1">课件</Menu.Item>
+      <Menu.Item key="1">任务资源</Menu.Item>
       <Menu.Item key="2">考试</Menu.Item>
       <Menu.Item key="3">作业</Menu.Item>
-      <Menu.Item key="1">心得</Menu.Item>
-      <Menu.Item key="2">评价</Menu.Item>
-      <Menu.Item key="3">其他</Menu.Item>
+      <Menu.Item key="4">心得体会</Menu.Item>
     </Menu>
   );
 
@@ -135,7 +134,10 @@ const Content: FC<{ form: any }> = (props) => {
           <Table columns={columns} dataSource={list} />
         </div>
       </div>
-      
+      <Task visible={current === "1"} />
+      <Exam visible={current === "2"} />
+      <HomeWork visible={current === "3"} />
+      <Experience visible={current === "4"} />
     </div>
   );
 };

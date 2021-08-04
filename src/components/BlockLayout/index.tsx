@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { Spin } from "antd";
 import "./index.css";
 
 interface BlockInterface {
@@ -62,6 +63,7 @@ interface BlocksInterface {
   height?: number | string;
   lineWidth?: number;
   backgroundColor?: { blocks: string; block: string };
+  loading?: boolean;
 }
 
 /**
@@ -72,6 +74,7 @@ interface BlocksInterface {
  * @param {number | string} height 容器高 默认 100%
  * @param {number} lineWidth 容器内部间隔线宽度 默认 16px
  * @param {object} backgroundColor blocks 容器背景色 block 项目背景色
+ * @param {boolean} loading 加载蒙层
  */
 
 export const Blocks: FC<BlocksInterface> = (props) => {
@@ -83,6 +86,7 @@ export const Blocks: FC<BlocksInterface> = (props) => {
     height = "100%",
     lineWidth = 16,
     backgroundColor = { blocks: "transparent", block: "#FFFFFF" },
+    loading = false,
   } = props;
 
   const gridTemplate = getGridTemplate(children, row, col);
@@ -97,15 +101,18 @@ export const Blocks: FC<BlocksInterface> = (props) => {
   };
 
   return (
-    <div className="blocks-container" style={styles}>
-      {React.Children.map(children, (child: any, i) => {
-        return React.cloneElement(child, {
-          start: gridTemplate.gridItems[i].start,
-          end: gridTemplate.gridItems[i].end,
-          backgroundColor: child.props.backgroundColor || backgroundColor.block,
-        });
-      })}
-    </div>
+    <Spin spinning={loading}>
+      <div className="blocks-container" style={styles}>
+        {React.Children.map(children, (child: any, i) => {
+          return React.cloneElement(child, {
+            start: gridTemplate.gridItems[i].start,
+            end: gridTemplate.gridItems[i].end,
+            backgroundColor:
+              child.props.backgroundColor || backgroundColor.block,
+          });
+        })}
+      </div>
+    </Spin>
   );
 };
 Blocks.displayName = "Blocks";

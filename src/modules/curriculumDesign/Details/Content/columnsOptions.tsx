@@ -2,69 +2,26 @@ import React from "react";
 import { Tag, Space } from "antd";
 export const columns = [
   {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-    render: (
-      text:
-        | boolean
-        | React.ReactPortal
-        | React.ReactChild
-        | React.ReactFragment
-        | null
-        | undefined
-    ) => <a>{text}</a>,
+    title: "任务名称",
+    dataIndex: "taskName",
+    key: "taskName",
   },
   {
-    title: "Age",
-    dataIndex: "age",
-    key: "age",
+    title: "任务类型",
+    dataIndex: "taskType",
+    key: "taskType",
   },
   {
-    title: "Address",
-    dataIndex: "address",
-    key: "address",
+    title: "排序",
+    dataIndex: "sort",
+    key: "sort",
   },
   {
-    title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
-    render: (tags: any[]) => (
-      <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? "geekblue" : "green";
-          if (tag === "loser") {
-            color = "volcano";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
-  },
-  {
-    title: "Action",
+    title: "操作",
     key: "action",
-    render: (
-      text: any,
-      record: {
-        name:
-          | string
-          | number
-          | boolean
-          | {}
-          | React.ReactElement<any, string | React.JSXElementConstructor<any>>
-          | React.ReactNodeArray
-          | React.ReactPortal
-          | null
-          | undefined;
-      }
-    ) => (
+    render: (text: any, record: any) => (
       <Space size="middle">
-        <a>Invite {record.name}</a>
+        <a>Invite</a>
         <a>Delete</a>
       </Space>
     ),

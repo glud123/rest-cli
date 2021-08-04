@@ -31,11 +31,13 @@ const List = () => {
 
   useEffect(() => {
     setLoading(true);
-    post("design/courses/list", query).then((res) => {
-      setList(res);
-    }).finally(()=>{
-      setLoading(false);
-    });
+    post("design/courses/list", query)
+      .then(({ list }) => {
+        setList(list);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [query]);
 
   const onSearch = (value: any) => {
@@ -43,7 +45,7 @@ const List = () => {
   };
 
   return (
-    <Blocks row={2}>
+    <Blocks row={2} loading={loading}>
       <Block row={1}>
         <Filter>
           <Radio.Group defaultValue="a" buttonStyle="solid">
