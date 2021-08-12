@@ -29,10 +29,5 @@ export const getFormOptions = () => {
       label: "课程时长",
       key: "recommendHour",
     },
-    {
-      type: FormItemTypeEnum.Text,
-      label: "课程设计者",
-      key: "courseDesigner",
-    },
   ];
 };

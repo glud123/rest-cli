@@ -54,7 +54,7 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
     let flag = checkTreeDataHasNew(list);
 
     if (flag) {
-      Message.open({ message: "请先保存阶段内容，再进行后续操作" });
+      Message.warning("请先保存阶段内容，再进行后续操作");
       return;
     }
 
@@ -142,7 +142,7 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
     if (k === "del") {
       if (currentItem && currentItem.level === 1) {
         if (currentItem.subList && currentItem.subList.length > 0) {
-          Message.open({ message: "请先删除子阶段后在操作" });
+          Message.warning("请先删除子阶段后在操作" );
           return;
         } else {
           Confirm.open("确定删除当前阶段").then(() => {

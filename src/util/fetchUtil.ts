@@ -1,3 +1,5 @@
+import Message from "@/components/Message";
+
 export const get = (url: string, data: any) => {
   return fetch(url, {
     body: JSON.stringify(data), // must match 'Content-Type' header
@@ -24,19 +26,21 @@ export const get = (url: string, data: any) => {
  * @returns Promise<any>
  */
 export const post = (url: string, data: any = {}) => {
-  // let formData = "";
-  // Object.keys(data).forEach((key, index) => {
-  //   if (index === 0) {
-  //     formData += `${key}=${data[key]}`;
-  //   } else {
-  //     formData += `&${key}=${data[key]}`;
-  //   }
-  // });
+  let formData = "";
+  Object.keys(data).forEach((key, index) => {
+    if (index === 0) {
+      formData += `${key}=${data[key]}`;
+    } else {
+      formData += `&${key}=${data[key]}`;
+    }
+  });
   return fetch(`/cts/${url}`, {
-    body: JSON.stringify(data),
+    // body: JSON.stringify(data),
+    body: formData,
     credentials: "include", // include, same-origin, *omit
     headers: {
-      "content-type": "application/json;charset=UTF-8",
+      "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
+      // "content-type": "application/json;charset=UTF-8",
     },
     method: "POST", // *GET, POST, PUT, DELETE, etc.
   })
@@ -45,8 +49,10 @@ export const post = (url: string, data: any = {}) => {
       if (code === "200") {
         return data;
       } else {
-        return null;
+        throw new Error(data.msg);
       }
+    }).catch((error) => {
+      Message.error(error.message);
     }); // parses response to JSON
 };
 

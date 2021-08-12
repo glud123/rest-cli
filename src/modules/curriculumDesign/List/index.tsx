@@ -11,7 +11,11 @@ import { columns } from "./columnsOptions";
 const List = () => {
   let history = useHistory();
 
-  const [query, setQuery] = useState<{ [k: string]: string }>();
+  const [query, setQuery] = useState<{ [k: string]: any }>({
+    keyWord: null,
+    courseType: 1,
+    courseStatus: 1,
+  });
   const [loading, setLoading] = useState(false);
   const [list, setList] = useState<any[]>();
 
@@ -41,17 +45,25 @@ const List = () => {
   }, [query]);
 
   const onSearch = (value: any) => {
-    setQuery({ keyword: value });
+    setQuery({ ...query, keyWord: value });
   };
+
+  const { courseStatus } = query;
 
   return (
     <Blocks row={2} loading={loading}>
       <Block row={1}>
         <Filter>
-          <Radio.Group defaultValue="a" buttonStyle="solid">
-            <Radio.Button value="a">不限</Radio.Button>
-            <Radio.Button value="b">已发布</Radio.Button>
-            <Radio.Button value="c">未发布</Radio.Button>
+          <Radio.Group
+            defaultValue={courseStatus}
+            buttonStyle="solid"
+            onChange={({ target }) => {
+              setQuery({ ...query, courseStatus: target.value });
+            }}
+          >
+            <Radio.Button value={1}>不限</Radio.Button>
+            <Radio.Button value={2}>已发布</Radio.Button>
+            <Radio.Button value={3}>未发布</Radio.Button>
           </Radio.Group>
           <div>
             <Input.Search

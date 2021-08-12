@@ -18,7 +18,7 @@ const ThemePicker = () => {
       })
       .then(() => {
         localStorage.setItem("theme", color.hex);
-        Message.open({ type: "success", message: "修改主题色成功！" });
+        Message.warning("修改主题色成功！");
       })
       .catch((error: any) => {
         console.log(error);

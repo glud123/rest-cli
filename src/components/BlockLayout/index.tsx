@@ -101,7 +101,7 @@ export const Blocks: FC<BlocksInterface> = (props) => {
   };
 
   return (
-    <Spin spinning={loading}>
+    <Spin spinning={loading} wrapperClassName="height_100">
       <div className="blocks-container" style={styles}>
         {React.Children.map(children, (child: any, i) => {
           return React.cloneElement(child, {

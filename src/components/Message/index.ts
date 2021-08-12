@@ -7,14 +7,15 @@ AntdMessage.config({
   maxCount: 2,
 });
 
-const open = ({
-  type = "warning",
-  message,
-}: {
-  type?: IconType;
-  message: string;
-}) => {
-  AntdMessage[type](message);
+const success = (message: string) => {
+  AntdMessage["success"](message);
 };
 
-export default { open };
+const error = (message: string) => {
+  AntdMessage["error"](message);
+};
+
+const warning = (message: string) => {
+  AntdMessage["warning"](message);
+};
+export default { success, error, warning };

@@ -119,7 +119,7 @@ const Content: FC<{ form: any }> = (props) => {
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 14 }}
             name="content"
-            initialValues={{ courseName: "222", courseDesc: "" }}
+            initialValues={{ courseName: "", courseDesc: "" }}
           >
             <AntdForm.Item wrapperCol={{ offset: 6, span: 16 }}>
               <Dropdown overlay={menu}>

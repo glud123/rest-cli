@@ -24,11 +24,11 @@ export const getButtonOptions: getButtonOptionsInterface = (currentKey) => {
   };
   // 基本信息
   if (currentKey === 0) {
-    return [back, save, next];
+    return [back,  next];
   }
   // 课程内容
   if (currentKey === 1) {
-    return [back, pre, save, next];
+    return [back, pre, next];
   }
   // 发布
   if (currentKey === 2) {

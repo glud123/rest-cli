@@ -14,12 +14,11 @@ const Info: FC<{ form: any }> = (props) => {
         wrapperCol={{ span: 14 }}
         name="info"
         initialValues={{
-          courseName: "111",
+          courseName: "",
           courseDesc: "",
           recommendMajor: "",
           courseTarget: "",
           recommendHour: "",
-          courseDesigner: "",
         }}
       ></Form>
     </div>
