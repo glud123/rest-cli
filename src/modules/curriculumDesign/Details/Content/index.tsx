@@ -103,8 +103,8 @@ const Content: FC<ContentPropsInterface> = (props) => {
     console.log(treeItem);
   };
 
-  const handleMenuClick = (e: any) => {
-    setCurrent(e.key);
+  const handleMenuClick = (e?: any) => {
+    setCurrent(e ? e.key : null);
   };
 
   const menu = (
@@ -149,10 +149,10 @@ const Content: FC<ContentPropsInterface> = (props) => {
           <Table columns={columns} dataSource={list} />
         </div>
       </div>
-      <Task visible={current === "1"} />
-      <Exam visible={current === "2"} />
-      <HomeWork visible={current === "3"} />
-      <Experience visible={current === "4"} />
+      <Task visible={current === "1"} onChange={handleMenuClick} />
+      <Exam visible={current === "2"} onChange={handleMenuClick} />
+      <HomeWork visible={current === "3"} onChange={handleMenuClick} />
+      <Experience visible={current === "4"} onChange={handleMenuClick} />
     </div>
   );
 };

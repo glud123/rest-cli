@@ -6,6 +6,7 @@ import { FormItemTypeEnum } from "@/components/Form/type";
 
 interface HomeWorkPropsInterface {
   visible: boolean;
+  onChange: () => void;
 }
 /**
  * 心得体会弹窗
@@ -13,22 +14,16 @@ interface HomeWorkPropsInterface {
  * @returns
  */
 const Experience: FC<HomeWorkPropsInterface> = (props) => {
-  const { visible: props_visible } = props;
-
-  const [visible, setVisible] = useState(() => props_visible);
-
-  useEffect(() => {
-    setVisible(props_visible);
-  }, [props_visible]);
+  const { visible, onChange } = props;
 
   const formOptions = getFormOptions();
 
   const handleOk = () => {
-    setVisible(true);
+    onChange();
   };
 
   const handleCancel = () => {
-    setVisible(false);
+    onChange();
   };
 
   return (

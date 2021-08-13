@@ -3,6 +3,7 @@ import { Modal } from "antd";
 
 interface ExamPropsInterface {
   visible: boolean;
+  onChange: () => void;
 }
 /**
  * 任务资源弹窗
@@ -10,20 +11,14 @@ interface ExamPropsInterface {
  * @returns
  */
 const Task: FC<ExamPropsInterface> = (props) => {
-  const { visible: props_visible } = props;
-
-  const [visible, setVisible] = useState(() => props_visible);
-
-  useEffect(() => {
-    setVisible(props_visible);
-  }, [props_visible]);
+  const { visible, onChange } = props;
 
   const handleOk = () => {
-    setVisible(true);
+    onChange();
   };
 
   const handleCancel = () => {
-    setVisible(false);
+    onChange();
   };
 
   return (
