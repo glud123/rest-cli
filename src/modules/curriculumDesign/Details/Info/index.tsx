@@ -19,13 +19,18 @@ const Info: FC<InfoPropsInterface> = (props) => {
   const { onChange } = props;
   let history = useHistory();
   const [form] = useForm();
+  const [urlParams, setUrlParams] = useUrlState();
   const formOptions = getFormOptions();
   const setOperation = useSetRecoilState(Store.platform.operationState);
   const buttonOptions = getButtonOptions();
 
   // 获取基本信息数据
-  const getInfoData = (callback?: () => void) => {
-    post("design/coursebase/get", { courseId: 0 }).then((data) => {
+  const getInfoData = () => {
+    if (!urlParams.id) {
+      return;
+    }
+    let id = Number(urlParams.id);
+    post("design/coursebase/get", { courseId: id }).then((data) => {
       if (data) {
         const {
           id,
@@ -43,7 +48,6 @@ const Info: FC<InfoPropsInterface> = (props) => {
           courseTarget,
           recommendHour,
         });
-        callback && callback();
       }
     });
   };
@@ -57,7 +61,7 @@ const Info: FC<InfoPropsInterface> = (props) => {
         await form.validateFields(["courseName"]);
         // 新增
         let url = "design/coursebase/save";
-        if (urlParams.courseId) {
+        if (urlParams.id) {
           // 修改
           url = "design/coursebase/update";
         }
@@ -82,9 +86,8 @@ const Info: FC<InfoPropsInterface> = (props) => {
     setOperation(
       <ButtonGroup options={buttonOptions} onClick={handleBtnClick} />
     );
+    getInfoData();
   }, []);
-
-  const [urlParams, setUrlParams] = useUrlState();
 
   return (
     <div className="curriculum-info">

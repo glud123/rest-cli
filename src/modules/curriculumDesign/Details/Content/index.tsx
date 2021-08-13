@@ -33,6 +33,7 @@ const Content: FC<ContentPropsInterface> = (props) => {
   const handleBtnClick = async (key: string) => {
     switch (key) {
       case "pre":
+        onChange(0);
         break;
       case "next":
         break;

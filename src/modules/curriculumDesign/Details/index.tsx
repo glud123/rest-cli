@@ -10,17 +10,17 @@ import "./index.less";
 
 const Details = () => {
   const [urlParams, setUrlParams] = useUrlState();
-  const [current, setCurrent] = useState(() => {
-    let c = urlParams.current;
+  const [step, setStep] = useState(() => {
+    let c = urlParams.step;
     return c ? parseInt(c) : 0;
   });
 
   useEffect(() => {
-    setUrlParams({ current });
-  }, [current]);
+    setUrlParams({ urlParams, step });
+  }, [step]);
 
   const onChange = (c: number) => {
-    setCurrent(c);
+    setStep(c);
   };
 
   return (
@@ -30,19 +30,18 @@ const Details = () => {
           <div className="cd-top">
             <Steps
               type="navigation"
-              current={current}
-              onChange={onChange}
+              current={step}
               className="site-navigation-steps"
             >
-              <Steps.Step status={handleStatus(current, 0)} title="基本信息" />
-              <Steps.Step status={handleStatus(current, 1)} title="课程内容" />
-              <Steps.Step status={handleStatus(current, 2)} title="发布" />
+              <Steps.Step status={handleStatus(step, 0)} title="基本信息" />
+              <Steps.Step status={handleStatus(step, 1)} title="课程内容" />
+              <Steps.Step status={handleStatus(step, 2)} title="发布" />
             </Steps>
           </div>
           <div className="cd-bottom">
-            {current === 0 && <Info onChange={onChange} />}
-            {current === 1 && <Content onChange={onChange} />}
-            {current === 2 && <Deploy onChange={onChange} />}
+            {step === 0 && <Info onChange={onChange} />}
+            {step === 1 && <Content onChange={onChange} />}
+            {step === 2 && <Deploy onChange={onChange} />}
           </div>
         </div>
       </Block>
