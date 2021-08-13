@@ -24,7 +24,7 @@ export const getButtonOptions: getButtonOptionsInterface = (currentKey) => {
   };
   // 基本信息
   if (currentKey === 0) {
-    return [back,  next];
+    return [];
   }
   // 课程内容
   if (currentKey === 1) {

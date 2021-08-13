@@ -1,18 +1,52 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import { Form as AntdForm, Table, Button, Dropdown, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import OperationTree from "@/components/OperationTree";
-import Form from "@/components/Form";
+import ButtonGroup from "@/components/ButtonGroup";
+import Store from "@/store";
+import Message from "@/components/Message";
+import { post } from "@/util/fetchUtil";
+import Form, { useForm } from "@/components/Form";
 import { columns } from "./columnsOptions";
 import { getFormOptions } from "./formOptions";
 import { Task, Exam, HomeWork, Experience } from "./component";
+import { getButtonOptions } from "./buttonOptions";
 
 import type { TreeItem } from "@/components/OperationTree";
-
-const Content: FC<{ form: any }> = (props) => {
+interface ContentPropsInterface {
+  onChange: (key: number) => void;
+}
+const Content: FC<ContentPropsInterface> = (props) => {
+  const { onChange } = props;
+  let history = useHistory();
+  const [form] = useForm();
+  const setOperation = useSetRecoilState(Store.platform.operationState);
   const [list, setList] = useState();
 
+  const buttonOptions = getButtonOptions();
+
   const [current, setCurrent] = useState();
+
+  // 按钮点击事件
+  const handleBtnClick = async (key: string) => {
+    switch (key) {
+      case "pre":
+        break;
+      case "next":
+        break;
+      default:
+        history.push("/curriculum-design/");
+        break;
+    }
+  };
+
+  useEffect(() => {
+    setOperation(
+      <ButtonGroup options={buttonOptions} onClick={handleBtnClick} />
+    );
+  }, []);
 
   const handleChange = (
     type: "add" | "del" | "up" | "down",
@@ -114,7 +148,7 @@ const Content: FC<{ form: any }> = (props) => {
       <div className="cc-right">
         <div className="cc-right-form">
           <Form
-            form={props.form}
+            form={form}
             options={formOptions}
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 14 }}
