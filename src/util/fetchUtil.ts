@@ -51,16 +51,13 @@ export const post = (url: string, data: any = {}) => {
       } else {
         throw new Error(data.msg);
       }
-    }).catch((error) => {
+    })
+    .catch((error) => {
       Message.error(error.message);
     }); // parses response to JSON
 };
 
 export const upload = (url: string, data: { [k: string]: any }) => {
-  if (!data) {
-    console.error(`data is undefined`);
-    return;
-  }
   let formData = new FormData();
   Object.keys(data).forEach((key) => {
     if (Array.isArray(data[key])) {
@@ -72,7 +69,7 @@ export const upload = (url: string, data: { [k: string]: any }) => {
     }
   });
   return fetch(url, {
-    method: "PUT",
+    method: "POST",
     body: formData,
   })
     .then((response) => response.json())

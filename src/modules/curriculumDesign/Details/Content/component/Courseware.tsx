@@ -1,6 +1,10 @@
 import React, { FC, useState, useEffect } from "react";
-import { Modal, Upload, message } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
+import { Modal, Upload, message, Button } from "antd";
+import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
+import { upload } from "@/util/fetchUtil";
+
+import type { RcFile } from "antd/lib/upload";
+import type { UploadFile } from "antd/lib/upload/interface";
 
 const { Dragger } = Upload;
 
@@ -15,6 +19,9 @@ interface CoursewarePropsInterface {
  */
 const Courseware: FC<CoursewarePropsInterface> = (props) => {
   const { visible, onChange } = props;
+
+  const [fileList, setFileList] = useState<RcFile[]>([]);
+  const [uploading, setUploading] = useState(false);
 
   const handleOk = () => {
     onChange();
@@ -36,6 +43,17 @@ const Courseware: FC<CoursewarePropsInterface> = (props) => {
     }
   };
 
+  const handleUpload = () => {
+    setUploading(true);
+    upload("design/task/resource/uploads", { "files": fileList }).then(
+      (data) => {
+        if (data) {
+          console.log(data);
+        }
+      }
+    );
+  };
+
   return (
     <Modal
       title="课件上传"
@@ -47,23 +65,50 @@ const Courseware: FC<CoursewarePropsInterface> = (props) => {
         padding: "16px 32px",
       }}
     >
-      <Dragger
-        name="file"
-        multiple={true}
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-        onChange={handleUploadChange}
-      >
-        <p className="ant-upload-drag-icon">
-          <InboxOutlined />
-        </p>
-        <p className="ant-upload-text">
-          Click or drag file to this area to upload
-        </p>
-        <p className="ant-upload-hint">
-          Support for a single or bulk upload. Strictly prohibit from uploading
-          company data or other band files
-        </p>
-      </Dragger>
+      {fileList.length > 0 ? (
+        <div>
+          <Upload
+            onRemove={(file) => {
+              const index = fileList.indexOf(file as any);
+              const newFileList = fileList.slice();
+              newFileList.splice(index, 1);
+              setFileList(() => newFileList);
+            }}
+            beforeUpload={(file) => {
+              setFileList([...fileList, file]);
+              return false;
+            }}
+            fileList={fileList as unknown as UploadFile<any>[]}
+          >
+            <Button icon={<UploadOutlined />}>选择文件</Button>
+          </Upload>
+          <Button
+            type="primary"
+            onClick={handleUpload}
+            disabled={fileList.length === 0}
+            loading={uploading}
+            style={{ marginTop: 16 }}
+          >
+            {uploading ? "正在上传" : "开始上传"}
+          </Button>
+        </div>
+      ) : (
+        <Dragger
+          name="file"
+          multiple={true}
+          onChange={handleUploadChange}
+          beforeUpload={(file) => {
+            setFileList([...fileList, file]);
+            return false;
+          }}
+        >
+          <p className="ant-upload-drag-icon">
+            <InboxOutlined />
+          </p>
+          <p className="ant-upload-text">点击或者拖动文件到此区域上传</p>
+          <p className="ant-upload-hint">支持单文件或者批量上传</p>
+        </Dragger>
+      )}
     </Modal>
   );
 };
