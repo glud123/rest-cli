@@ -22,7 +22,16 @@ const Exam: FC<ExamPropsInterface> = (props) => {
   };
 
   return (
-    <Modal visible={visible} onCancel={handleCancel} onOk={handleOk}>
+    <Modal
+      title="试卷上传"
+      maskClosable={false}
+      visible={visible}
+      onCancel={handleCancel}
+      onOk={handleOk}
+      bodyStyle={{
+        padding: "16px 32px",
+      }}
+    >
       考试
     </Modal>
   );

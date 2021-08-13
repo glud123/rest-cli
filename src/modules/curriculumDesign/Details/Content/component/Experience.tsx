@@ -4,7 +4,7 @@ import Form from "@/components/Form";
 
 import { FormItemTypeEnum } from "@/components/Form/type";
 
-interface HomeWorkPropsInterface {
+interface ExperiencePropsInterface {
   visible: boolean;
   onChange: () => void;
 }
@@ -13,7 +13,7 @@ interface HomeWorkPropsInterface {
  * @param props
  * @returns
  */
-const Experience: FC<HomeWorkPropsInterface> = (props) => {
+const Experience: FC<ExperiencePropsInterface> = (props) => {
   const { visible, onChange } = props;
 
   const formOptions = getFormOptions();
@@ -27,8 +27,12 @@ const Experience: FC<HomeWorkPropsInterface> = (props) => {
   };
 
   return (
-    <Modal visible={visible} onCancel={handleCancel} onOk={handleOk}>
-      <Form options={formOptions} />
+    <Modal title="心得体会" maskClosable={false} visible={visible} onCancel={handleCancel} onOk={handleOk}>
+      <Form
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 14 }}
+        options={formOptions}
+      />
     </Modal>
   );
 };

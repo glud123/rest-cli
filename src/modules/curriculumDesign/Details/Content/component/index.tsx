@@ -1,6 +1,6 @@
-import Task from "./Task";
+import Courseware from "./Courseware";
 import Exam from "./Exam";
 import HomeWork from "./HomeWork";
 import Experience from "./Experience";
 
-export { Task, Exam, HomeWork, Experience };
+export { Courseware, Exam, HomeWork, Experience };

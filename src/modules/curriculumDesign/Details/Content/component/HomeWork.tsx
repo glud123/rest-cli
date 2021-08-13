@@ -27,8 +27,18 @@ const HomeWork: FC<HomeWorkPropsInterface> = (props) => {
   };
 
   return (
-    <Modal visible={visible} onCancel={handleCancel} onOk={handleOk}>
-      <Form options={formOptions} />
+    <Modal
+      title="作业"
+      maskClosable={false}
+      visible={visible}
+      onCancel={handleCancel}
+      onOk={handleOk}
+    >
+      <Form
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 14 }}
+        options={formOptions}
+      />
     </Modal>
   );
 };

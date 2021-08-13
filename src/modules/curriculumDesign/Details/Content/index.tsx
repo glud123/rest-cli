@@ -12,7 +12,7 @@ import { post } from "@/util/fetchUtil";
 import Form, { useForm } from "@/components/Form";
 import { columns } from "./columnsOptions";
 import { getFormOptions } from "./formOptions";
-import { Task, Exam, HomeWork, Experience } from "./component";
+import { Courseware, Exam, HomeWork, Experience } from "./component";
 import { getButtonOptions } from "./buttonOptions";
 
 import type { TreeItem } from "@/components/OperationTree";
@@ -109,7 +109,7 @@ const Content: FC<ContentPropsInterface> = (props) => {
 
   const menu = (
     <Menu onClick={handleMenuClick}>
-      <Menu.Item key="1">任务资源</Menu.Item>
+      <Menu.Item key="1">课件</Menu.Item>
       <Menu.Item key="2">考试</Menu.Item>
       <Menu.Item key="3">作业</Menu.Item>
       <Menu.Item key="4">心得体会</Menu.Item>
@@ -149,7 +149,7 @@ const Content: FC<ContentPropsInterface> = (props) => {
           <Table columns={columns} dataSource={list} />
         </div>
       </div>
-      <Task visible={current === "1"} onChange={handleMenuClick} />
+      <Courseware visible={current === "1"} onChange={handleMenuClick} />
       <Exam visible={current === "2"} onChange={handleMenuClick} />
       <HomeWork visible={current === "3"} onChange={handleMenuClick} />
       <Experience visible={current === "4"} onChange={handleMenuClick} />
