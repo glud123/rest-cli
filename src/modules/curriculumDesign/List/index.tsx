@@ -5,8 +5,10 @@ import { Button, Table, Radio, Input } from "antd";
 import Store from "@/store";
 import { Blocks, Block } from "@/components/BlockLayout";
 import Filter from "@/components/Filter";
+import Message from "@/components/Message";
+import Confirm from "@/components/Confirm";
 import { post } from "@/util/fetchUtil";
-import { columns } from "./columnsOptions";
+import { getColumns } from "./columnsOptions";
 
 const List = () => {
   let history = useHistory();
@@ -20,6 +22,40 @@ const List = () => {
   const [list, setList] = useState<any[]>();
 
   const setOperation = useSetRecoilState(Store.platform.operationState);
+
+  const queryData = () => {
+    setLoading(true);
+    post("design/courses/list", query)
+      .then(({ list }) => {
+        setList(list);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleBtnClick = (type: string, record: any) => {
+    const { id, courseName } = record;
+    switch (type) {
+      case "del":
+        Confirm.open(`确认要删除【${courseName}】吗`).then(() => {
+          post("design/coursebase/delete", { courseId: id }).then((data) => {
+            if (data) {
+              Message.success("删除成功！");
+              queryData();
+            }
+          });
+        });
+        break;
+      case "edit":
+      default:
+        history.push(`/curriculum-design/details?id=${id}&step=0`);
+        break;
+    }
+  };
+
+  const columns = getColumns(handleBtnClick);
+
   useEffect(() => {
     setOperation(
       <Button
@@ -34,14 +70,7 @@ const List = () => {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
-    post("design/courses/list", query)
-      .then(({ list }) => {
-        setList(list);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    queryData();
   }, [query]);
 
   const onSearch = (value: any) => {
