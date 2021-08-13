@@ -7,7 +7,7 @@ import {
   CaretDownOutlined,
   BlockOutlined,
 } from "@ant-design/icons";
-import { Tooltip } from "antd";
+import { Tooltip, Button } from "antd";
 import Message from "@/components/Message";
 import Confirm from "@/components/Confirm";
 import "./index.less";
@@ -17,7 +17,7 @@ export interface TreeItem<T = any> {
   stepName: string;
   stepDesc?: string;
   level: number;
-  parentId: number | null;
+  parentId?: number | null;
   leaf: number;
   sort: number;
   subList?: T[];
@@ -31,7 +31,10 @@ interface TreeListItem extends TreeItem<TreeListItem> {
 
 interface OperationTreePropsInterface {
   dataSource: TreeItem<TreeItem>[];
-  onChange?: (type: "add" | "del" | "up" | "down", item: TreeItem) => void;
+  onChange?: (
+    type: "add" | "del" | "up" | "down" | "save",
+    item: TreeItem
+  ) => void;
   onSelected?: (item: TreeItem) => void;
 }
 
@@ -39,6 +42,7 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
   const { dataSource, onChange, onSelected } = props;
   const [list, setList] = useState<TreeListItem[]>([]);
   const [currentItem, setCurrentItem] = useState<TreeListItem>();
+  const [newStatus, setNewStatus] = useState(false);
 
   useEffect(() => {
     if (dataSource && dataSource.length > 0) {
@@ -49,11 +53,22 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
     }
   }, [dataSource]);
 
-  const handleBtnClick = (k: "add" | "add_child" | "del" | "up" | "down") => {
-    // 如果有新增状态的数据，则不允许操作
+  useEffect(() => {
     let flag = checkTreeDataHasNew(list);
+    setNewStatus(flag);
+  }, [list]);
 
-    if (flag) {
+  const handleBtnClick = (
+    k: "add" | "add_child" | "del" | "up" | "down" | "save"
+  ) => {
+    if (k === "save") {
+      onChange &&
+        onChange("save", handleTreeNodeData(currentItem as TreeListItem));
+      return;
+    }
+
+    // 如果有新增状态的数据，则不允许操作
+    if (newStatus) {
       Message.warning("请先保存阶段内容，再进行后续操作");
       return;
     }
@@ -65,7 +80,7 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
       // 新增树节点
       let nextTreeNode: TreeListItem = {
         level: 1,
-        leaf: 1,
+        leaf: 0,
         sort: 0,
         stepName: "",
         stepDesc: "",
@@ -127,6 +142,7 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
           ...(childList as TreeListItem[]),
           nextTreeNode,
         ];
+        nextTreeNode.leaf = 1;
         setCurrentItem(nextTreeNode);
         let nextList = restList.map((item) => {
           if (item.id === id) {
@@ -142,7 +158,7 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
     if (k === "del") {
       if (currentItem && currentItem.level === 1) {
         if (currentItem.subList && currentItem.subList.length > 0) {
-          Message.warning("请先删除子阶段后在操作" );
+          Message.warning("请先删除子阶段后在操作");
           return;
         } else {
           Confirm.open("确定删除当前阶段").then(() => {
@@ -331,40 +347,48 @@ const OperationTree: FC<OperationTreePropsInterface> = (props) => {
 
   return (
     <div className="operation-tree">
-      <div className="ot-header">
-        <Tooltip title={"添加同级阶段"}>
-          <PlusOutlined
-            className="icon-wrap"
-            onClick={() => handleBtnClick("add")}
-          />
-        </Tooltip>
-        {currentItem?.level === 1 && (
-          <Tooltip title={"添加子阶段"}>
-            <BlockOutlined
+      {newStatus ? (
+        <div className="ot-header">
+          <Button type="primary" block onClick={() => handleBtnClick("save")}>
+            保存
+          </Button>
+        </div>
+      ) : (
+        <div className="ot-header">
+          <Tooltip title={"添加同级阶段"}>
+            <PlusOutlined
               className="icon-wrap"
-              onClick={() => handleBtnClick("add_child")}
+              onClick={() => handleBtnClick("add")}
             />
           </Tooltip>
-        )}
-        <Tooltip title={"上移选中阶段"}>
-          <ArrowUpOutlined
-            className="icon-wrap"
-            onClick={() => handleBtnClick("up")}
-          />
-        </Tooltip>
-        <Tooltip title={"下移选中阶段"}>
-          <ArrowDownOutlined
-            className="icon-wrap"
-            onClick={() => handleBtnClick("down")}
-          />
-        </Tooltip>
-        <Tooltip title={"删除选中阶段"}>
-          <MinusOutlined
-            className="icon-wrap"
-            onClick={() => handleBtnClick("del")}
-          />
-        </Tooltip>
-      </div>
+          {currentItem?.level === 1 && (
+            <Tooltip title={"添加子阶段"}>
+              <BlockOutlined
+                className="icon-wrap"
+                onClick={() => handleBtnClick("add_child")}
+              />
+            </Tooltip>
+          )}
+          <Tooltip title={"上移选中阶段"}>
+            <ArrowUpOutlined
+              className="icon-wrap"
+              onClick={() => handleBtnClick("up")}
+            />
+          </Tooltip>
+          <Tooltip title={"下移选中阶段"}>
+            <ArrowDownOutlined
+              className="icon-wrap"
+              onClick={() => handleBtnClick("down")}
+            />
+          </Tooltip>
+          <Tooltip title={"删除选中阶段"}>
+            <MinusOutlined
+              className="icon-wrap"
+              onClick={() => handleBtnClick("del")}
+            />
+          </Tooltip>
+        </div>
+      )}
       <div className="ot-container">{createTreeNode(list)}</div>
     </div>
   );
@@ -411,6 +435,8 @@ const OperationTreeItem: FC<OperationTreeItemPropsInterface> = (props) => {
     </li>
   );
 };
+
+export default OperationTree;
 
 interface createTreeDataInterface {
   (dataSource: TreeItem[]): TreeListItem[];
@@ -517,4 +543,22 @@ const removeTreeDataHasNew: removeTreeDatainterface = (
   return removeFn(dataSource);
 };
 
-export default OperationTree;
+interface handleTreeNodeDataInterface {
+  (node: TreeListItem): TreeItem;
+}
+
+const handleTreeNodeData: handleTreeNodeDataInterface = (node) => {
+  const insertKeys = ["_label", "_isSelected", "_isExpanded"];
+  let treeNode: any = {};
+  Object.keys(node)
+    .filter((k) => {
+      return insertKeys.indexOf(k) === -1;
+    })
+    .forEach((k) => {
+      const item: any = (node as any)[k];
+      if (item !== undefined && item !== null) {
+        treeNode[k] = item;
+      }
+    });
+  return treeNode;
+};

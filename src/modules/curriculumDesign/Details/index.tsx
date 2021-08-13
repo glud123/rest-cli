@@ -16,11 +16,11 @@ const Details = () => {
   });
 
   useEffect(() => {
-    setUrlParams({ urlParams, step });
+    setUrlParams({ ...urlParams, step });
   }, [step]);
 
-  const onChange = (c: number) => {
-    setStep(c);
+  const onChange = (key: number) => {
+    setStep(key);
   };
 
   return (

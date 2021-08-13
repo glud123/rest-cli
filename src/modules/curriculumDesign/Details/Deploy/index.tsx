@@ -1,5 +1,6 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
+import useUrlState from "@ahooksjs/use-url-state";
 import { useHistory } from "react-router-dom";
 import Store from "@/store";
 import { post } from "@/util/fetchUtil";
@@ -57,6 +58,11 @@ interface DeployPropsInterface {
 const Deploy: FC<DeployPropsInterface> = (props) => {
   const { onChange } = props;
   let history = useHistory();
+  const [urlParams, setUrlParams] = useUrlState();
+
+  const [deployData, setDeployData] = useState<
+    { name: string; count: number }[]
+  >([]);
 
   const setOperation = useSetRecoilState(Store.platform.operationState);
 
@@ -64,6 +70,10 @@ const Deploy: FC<DeployPropsInterface> = (props) => {
 
   // 按钮点击事件
   const handleBtnClick = async (key: string) => {
+    if (!urlParams.id) {
+      return;
+    }
+    let id = parseInt(urlParams.id);
     switch (key) {
       case "save":
         break;
@@ -77,7 +87,11 @@ const Deploy: FC<DeployPropsInterface> = (props) => {
         break;
       case "deploy":
         // 发布
-        console.log(key);
+        post("design/coursebase/release", { courseId: id }).then((data) => {
+          if (data) {
+            Message.success(data.msg);
+          }
+        });
         break;
       default:
         history.push("/curriculum-design/");
@@ -85,17 +99,31 @@ const Deploy: FC<DeployPropsInterface> = (props) => {
     }
   };
 
+  const getData = () => {
+    if (!urlParams.id) {
+      return;
+    }
+    let id = parseInt(urlParams.id);
+    post("design/coursebase/view", { courseId: id }).then((data) => {
+      if (data) {
+        let listData = handleData(data);
+        setDeployData(listData);
+      }
+    });
+  };
+
   useEffect(() => {
     setOperation(
       <ButtonGroup options={buttonOptions} onClick={handleBtnClick} />
     );
+    getData();
   }, []);
 
   return (
     <div className="curriculum-deploy">
       <div className="cd-title">项目概要</div>
       <ul className="cd-container">
-        {listData.map((item, index) => {
+        {deployData.map((item, index) => {
           const { count, name } = item;
           return (
             <li>
@@ -107,6 +135,36 @@ const Deploy: FC<DeployPropsInterface> = (props) => {
       </ul>
     </div>
   );
+};
+
+interface handleDataInterface {
+  (data: { [k: string]: number }): { count: number; name: string }[];
+}
+
+const handleData: handleDataInterface = (data) => {
+  return Object.keys(data).map((k) => {
+    const count = data[k];
+    let name = "";
+    if ((k = "taskCount")) {
+      name = "任务";
+    }
+    if ((k = "coursewareCount")) {
+      name = "课件";
+    }
+    if ((k = "testCount")) {
+      name = "考试";
+    }
+    if ((k = "homeworkCount")) {
+      name = "作业";
+    }
+    if ((k = "experienceCount")) {
+      name = "心得";
+    }
+    return {
+      count,
+      name,
+    };
+  });
 };
 
 export default Deploy;

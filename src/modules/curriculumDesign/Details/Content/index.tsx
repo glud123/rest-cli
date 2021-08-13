@@ -1,5 +1,6 @@
 import React, { FC, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import useUrlState from "@ahooksjs/use-url-state";
 import { useSetRecoilState } from "recoil";
 import { Form as AntdForm, Table, Button, Dropdown, Menu } from "antd";
 import { DownOutlined } from "@ant-design/icons";
@@ -22,12 +23,28 @@ const Content: FC<ContentPropsInterface> = (props) => {
   const { onChange } = props;
   let history = useHistory();
   const [form] = useForm();
+  const [urlParams, setUrlParams] = useUrlState();
   const setOperation = useSetRecoilState(Store.platform.operationState);
-  const [list, setList] = useState();
-
   const buttonOptions = getButtonOptions();
 
   const [current, setCurrent] = useState();
+  const [tree, setTree] = useState<TreeItem[]>([]);
+  const [list, setList] = useState();
+
+  // 获取阶段树数据
+  const getTreeData = () => {
+    if (!urlParams.id) {
+      return;
+    }
+    let id = parseInt(urlParams.id);
+    post("design/course/step/list", { courseId: id }).then((data) => {
+      if (data) {
+        setTree(data);
+      }
+    });
+  };
+  // 获取任务列表
+  const getTableData = () => {};
 
   // 按钮点击事件
   const handleBtnClick = async (key: string) => {
@@ -36,6 +53,7 @@ const Content: FC<ContentPropsInterface> = (props) => {
         onChange(0);
         break;
       case "next":
+        onChange(2);
         break;
       default:
         history.push("/curriculum-design/");
@@ -47,13 +65,38 @@ const Content: FC<ContentPropsInterface> = (props) => {
     setOperation(
       <ButtonGroup options={buttonOptions} onClick={handleBtnClick} />
     );
+    getTreeData();
   }, []);
 
   const handleChange = (
-    type: "add" | "del" | "up" | "down",
+    key: "add" | "del" | "up" | "down" | "save",
     treeItem: TreeItem
   ) => {
-    console.log(type, treeItem);
+    if (!urlParams.id) {
+      return;
+    }
+    let id = parseInt(urlParams.id);
+    switch (key) {
+      case "del":
+        break;
+      case "up":
+        break;
+      case "down":
+        break;
+      case "save":
+        post("design/course/step/save", { ...treeItem, courseId: id }).then(
+          (data) => {
+            if (data) {
+              setTree(data);
+            }
+          }
+        );
+        break;
+      case "add":
+      default:
+        form.setFieldsValue(treeItem);
+        break;
+    }
   };
 
   const handleItemSelected = (treeItem: TreeItem) => {
@@ -79,70 +122,7 @@ const Content: FC<ContentPropsInterface> = (props) => {
       <div className="cc-left">
         <OperationTree
           onSelected={handleItemSelected}
-          dataSource={[
-            {
-              id: 11,
-              stepName: "111",
-              stepDesc: "111",
-              level: 1,
-              parentId: null,
-              leaf: 0,
-              sort: 0,
-              subList: [
-                {
-                  id: 1101,
-                  stepName: "1101",
-                  stepDesc: "1101",
-                  level: 2,
-                  parentId: 11,
-                  leaf: 1,
-                  sort: 0,
-                  subList: undefined,
-                },
-                {
-                  id: 1102,
-                  stepName: "1102",
-                  stepDesc: "1102",
-                  level: 2,
-                  parentId: 11,
-                  leaf: 1,
-                  sort: 1,
-                  subList: undefined,
-                },
-              ],
-            },
-            {
-              id: 12,
-              stepName: "12",
-              stepDesc: "12",
-              level: 1,
-              parentId: null,
-              leaf: 0,
-              sort: 1,
-              subList: [
-                {
-                  id: 1201,
-                  stepName: "1201",
-                  stepDesc: "1201",
-                  level: 2,
-                  parentId: 12,
-                  leaf: 1,
-                  sort: 0,
-                  subList: undefined,
-                },
-                {
-                  id: 1202,
-                  stepName: "1202",
-                  stepDesc: "1202",
-                  level: 2,
-                  parentId: 12,
-                  leaf: 1,
-                  sort: 1,
-                  subList: undefined,
-                },
-              ],
-            },
-          ]}
+          dataSource={tree}
           onChange={handleChange}
         />
       </div>

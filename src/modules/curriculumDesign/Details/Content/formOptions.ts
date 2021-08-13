@@ -5,14 +5,14 @@ export const getFormOptions = () => {
     {
       type: FormItemTypeEnum.Text,
       label: "阶段名称",
-      key: "courseName",
+      key: "stepName",
       required: true,
-      rules: [{ required: true, message: "Please input your username!" }],
+      rules: [{ required: true, message: "阶段名称不能为空！" }],
     },
     {
       type: FormItemTypeEnum.Textarea,
       label: "阶段描述",
-      key: "courseDesc",
+      key: "stepDesc",
     },
   ];
 };

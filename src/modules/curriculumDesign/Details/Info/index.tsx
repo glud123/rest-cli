@@ -29,7 +29,7 @@ const Info: FC<InfoPropsInterface> = (props) => {
     if (!urlParams.id) {
       return;
     }
-    let id = Number(urlParams.id);
+    let id = parseInt(urlParams.id);
     post("design/coursebase/get", { courseId: id }).then((data) => {
       if (data) {
         const {

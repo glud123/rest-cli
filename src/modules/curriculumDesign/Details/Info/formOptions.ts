@@ -7,7 +7,7 @@ export const getFormOptions = () => {
       label: "课程名称",
       key: "courseName",
       required: true,
-      rules: [{ required: true, message: "Please input your username!" }],
+      rules: [{ required: true, message: "课程名称不能为空！" }],
     },
     {
       type: FormItemTypeEnum.Text,
