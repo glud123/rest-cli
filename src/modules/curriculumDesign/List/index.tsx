@@ -80,7 +80,7 @@ const List = () => {
   const { courseStatus } = query;
 
   return (
-    <Blocks row={2} loading={loading}>
+    <Blocks row={2} >
       <Block row={1}>
         <Filter>
           <Radio.Group
@@ -105,7 +105,12 @@ const List = () => {
         </Filter>
       </Block>
       <Block row={2}>
-        <Table rowKey="id" columns={columns} dataSource={list} />
+        <Table
+          rowKey="id"
+          loading={loading}
+          columns={columns}
+          dataSource={list}
+        />
       </Block>
     </Blocks>
   );

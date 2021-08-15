@@ -35,12 +35,3 @@
   flex: 1;
   overflow: hidden;
 }
-
-.height_100 {
-  height: 100%;
-}
-
-.height_100 > div {
-  height: 100%;
-  background-color: transparent;
-}
