@@ -32,12 +32,15 @@
           height: 100%;
           display: flex;
           flex-direction: column;
-          .ant-table-thead {
+          .ant-table-header {
             flex: 0 0 55px;
             overflow: hidden;
           }
-          .ant-table-tbody {
+          .ant-table-body {
             flex: 1;
+            > table {
+              height: 100%;
+            }
           }
         }
       }
