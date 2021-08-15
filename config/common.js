@@ -12,7 +12,7 @@ module.exports = (dirname) => {
       extensions: [".ts", ".tsx", ".js", ".jsx", ".json", "css"],
       alias: {
         "@": resolve(dirname, "./src"),
-        "styles": resolve(dirname, "./src/styles"),
+        styles: resolve(dirname, "./src/styles"),
       },
     },
     context: resolve(dirname),
@@ -55,14 +55,23 @@ module.exports = (dirname) => {
               loader: "file-loader",
               options: {
                 esModule: false,
-                name: "image/[hash:8].[ext]",
+                name: "assets/[name].[hash:8].[ext]",
               },
             },
           ],
         },
         {
           test: /\.svg$/,
-          use: ['@svgr/webpack', 'file-loader'],
+          use: [
+            "@svgr/webpack",
+            {
+              loader: "file-loader",
+              options: {
+                esModule: false,
+                name: "assets/[name].[hash:8].[ext]",
+              },
+            },
+          ],
         },
         {
           test: /\.(ttf|eot|svg|woff|woff2)$/,
@@ -70,7 +79,7 @@ module.exports = (dirname) => {
           use: [
             {
               loader: "file-loader",
-              options: { esModule: false, name: "fonts/[hash:8].[ext]" },
+              options: { esModule: false, name: "assets/[name].[hash:8].[ext]" },
             },
           ],
         },
@@ -87,24 +96,25 @@ module.exports = (dirname) => {
           echarts: {
             test: /[\\/]node_modules[\\/]echarts[\\/]/,
             priority: -1,
-            name: "javascript/echarts.js",
+            name: "vendor/echarts.js",
           },
           mapbox_gl: {
             test: /[\\/]node_modules[\\/]mapbox-gl[\\/]/,
             priority: -2,
-            name: "javascript/mapbox-gl.js",
+            name: "vendor/mapbox-gl.js",
           },
           antv: {
             test: /[\\/]node_modules[\\/]@antv[\\/]/,
             priority: -3,
-            name: "javascript/antv.js",
+            name: "vendor/antv.js",
           },
           defaultVendors: {
             test: /[\\/]node_modules[\\/]/,
+            name: "vendor/vendors",
             priority: -10,
           },
           default: {
-            name: "javascript/default",
+            name: "vendor/default",
             priority: -20,
             reuseExistingChunk: true,
           },
@@ -134,11 +144,11 @@ module.exports = (dirname) => {
           },
           {
             from: "./public/javascript",
-            to: "./javascript",
+            to: "./vendor",
           },
           {
             from: "./public/color.less",
-            to: "./css",
+            to: "./",
           },
         ],
       }),

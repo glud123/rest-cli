@@ -1,4 +1,4 @@
-@primary-color: #009688;
+@primary-color: #607d8b;
 html {-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
 body {color: rgba(0, 0, 0, 0.85);background-color: #fff;}
 h1,
@@ -1648,11 +1648,13 @@ a.ant-typography.ant-typography-disabled:hover, .ant-typography a.ant-typography
 .curriculum-deploy .cd-container li::before {background-color: #e5e5e5;box-shadow: 0 0 4px 0 #d0d7df;}
 .platform-wrapper .pw-header {background-color: @primary-color;}
 .platform-wrapper .pw-header .header-wrapper {color: #a3d2ca;}
-.platform-wrapper .pw-body .pw-menu {background-color: #fff;}
-.platform-wrapper .pw-body .pw-content {background-color: #f4f9f9;}
+.platform-wrapper .pw-body .pw-menu {background-color: transparent !important;}
+.platform-wrapper .pw-body .pw-menu .menu-wrapper {background-color: #fff;box-shadow: 0px 0px 4px 0px #d0d7df;}
+.platform-wrapper .pw-body .pw-menu .menu-wrapper .ant-menu-inline {border: none;}
 .platform-wrapper .pw-body .pw-content .pw-operation-area .operation-area-wrapper .oaw-container {border-radius: 4px;background-color: #fff;box-shadow: 0px 0px 4px 0px #d0d7df;}
 .platform-wrapper .pw-body .pw-content .pw-operation-area .operation-area-wrapper .oaw-container .oaw-left > span:first-child {background-color: #f6f6f6;border-radius: 4px;}
 .platform-wrapper .pw-body .pw-content .pw-operation-area .operation-area-wrapper .oaw-container .oaw-left > span:first-child:hover {background-color: #ecf4f3;}
+#root {background-color: #f4f9f9;}
 .icon-wrap {border-radius: 3px;background-color: #f3f3f3;}
 .icon-wrap:hover {background-color: #e0e0e0;}
 .bezierEasingMixin() {
