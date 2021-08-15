@@ -40,14 +40,8 @@ const routes = [
       },
       {
         path: "/curriculum-design/details",
-        title: "新增",
+        title: "详情",
         hidden: ["menu"],
-        component: curriculumDesign.Details,
-      },
-      {
-        path: "/curriculum-design/details/:id",
-        hidden: ["menu"],
-        title: "编辑",
         component: curriculumDesign.Details,
       },
     ],
