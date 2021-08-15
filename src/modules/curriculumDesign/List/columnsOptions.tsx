@@ -1,5 +1,6 @@
 import React from "react";
-import { Tag, Space } from "antd";
+import ListInnerBittonGroup from "@/components/ListInnerBtnGroup";
+
 export const getColumns = (btnClick: (type: string, record: any) => void) => {
   return [
     {
@@ -26,22 +27,21 @@ export const getColumns = (btnClick: (type: string, record: any) => void) => {
       title: "Action",
       key: "action",
       render: (text: any, record: any) => (
-        <Space size="middle">
-          <span
-            onClick={() => {
-              btnClick("edit", record);
-            }}
-          >
-            编辑
-          </span>
-          <span
-            onClick={() => {
-              btnClick("del", record);
-            }}
-          >
-            删除
-          </span>
-        </Space>
+        <ListInnerBittonGroup
+          options={[
+            {
+              key: "edit",
+              name: "编辑",
+              onClick: btnClick,
+            },
+            {
+              key: "del",
+              name: "删除",
+              onClick: btnClick,
+            },
+          ]}
+          record={record}
+        />
       ),
     },
   ];
