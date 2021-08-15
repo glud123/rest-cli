@@ -34,8 +34,17 @@
     flex-wrap: nowrap;
     .pw-menu {
       overflow: hidden;
-      background-color: #fff;
+      background-color: transparent !important;
+      padding-right: 4px;
       transition: flex 0.2s ease-in-out;
+      .menu-wrapper {
+        height: 100%;
+        background-color: #fff;
+        box-shadow: 0px 0px 4px 0px #d0d7df;
+        .ant-menu-inline{
+          border: none;
+        }
+      }
     }
     .pw-content {
       flex: 1;
@@ -44,7 +53,6 @@
       flex-direction: column;
       gap: 12px;
       padding: 12px;
-      background-color: #f4f9f9;
       .pw-operation-area {
         flex: 0 0 62px;
         overflow: hidden;
