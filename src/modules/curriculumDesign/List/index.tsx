@@ -110,6 +110,10 @@ const List = () => {
           loading={loading}
           columns={columns}
           dataSource={list}
+          scroll={{
+            scrollToFirstRowOnChange:true,
+            y: '100%',
+          }}
         />
       </Block>
     </Blocks>

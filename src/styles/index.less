@@ -17,7 +17,34 @@
 .icon-padding-4 {
   padding: 4px;
 }
-
-.ant-table-pagination.ant-pagination {
-  margin: 8px 0;
+.ant-table-wrapper {
+  height: 100%;
+  .ant-spin-nested-loading {
+    height: 100%;
+    .ant-spin-container {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      .ant-table {
+        flex: 1;
+        overflow: hidden;
+        .ant-table-container {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          .ant-table-thead {
+            flex: 0 0 55px;
+            overflow: hidden;
+          }
+          .ant-table-tbody {
+            flex: 1;
+          }
+        }
+      }
+      .ant-table-pagination.ant-pagination {
+        flex: 0 0 32px;
+        margin: 8px 0;
+      }
+    }
+  }
 }
